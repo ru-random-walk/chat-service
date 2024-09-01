@@ -24,3 +24,7 @@
 [Реактивный масштабируемый чат на Kotlin + Spring + WebSockets / Habr](https://habr.com/ru/amp/publications/552234/)
 
 ![image.png](doc/img/image.png)
+
+## Доменная модель
+
+![domain_model.svg](doc/img/domain_model.drawio.svg)
