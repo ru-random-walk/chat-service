@@ -17,17 +17,17 @@
 
 ## Проблемы и их решения
 
-Описание проблемы: т.к. Chat Service является stateful сервисом (Websocket соединение 2 юзеров и храненимые сообщения должны быть на 1 сервисе), то для роутинга к нужному контейнеру нужен Service Discovery, который будет распределять нагрузку между контейнерами, запоминать адрес и роутить запросы
+**Описание проблемы:** т.к. Chat Service является stateful сервисом (Websocket соединение 2 юзеров и храненимые сообщения должны быть на 1 сервисе), то для роутинга к нужному контейнеру нужен Service Discovery, который будет распределять нагрузку между контейнерами, запоминать адрес и роутить запросы
 
-Решение: Использовать message брокер и рассылать сообщения на все инстансы:
+**Решение:** Использовать message брокер и рассылать сообщения на все инстансы:
 
 [Реактивный масштабируемый чат на Kotlin + Spring + WebSockets / Habr](https://habr.com/ru/amp/publications/552234/)
 
-Описание проблемы: что лучше юзать RabbitMQ или Kafka для event-source'инга и распределенного чата?
+**Описание проблемы:** что лучше юзать RabbitMQ или Kafka для event-source'инга и распределенного чата?
 
-Решение: Использовать rabbitMQ так как нам low latency нужна, а не high throghput
+**Решение:** Использовать rabbitMQ так как нам low latency нужна, а не high throghput
 
-[RabbitMQ vs. Kafka]([https://habr.com/ru/amp/publications/552234/](https://www.confluent.io/learn/rabbitmq-vs-apache-kafka/#:~:text=RabbitMQ%20and%20Apache%20Kafka%20are,quick%20message%20publishing%20and%20deletion.))
+[RabbitMQ vs. Kafka](https://www.confluent.io/learn/rabbitmq-vs-apache-kafka/#:~:text=RabbitMQ%20and%20Apache%20Kafka%20are,quick%20message%20publishing%20and%20deletion.)
 
 ![image.png](doc/img/image.png)
 
