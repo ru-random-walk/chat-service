@@ -23,13 +23,13 @@
 
 [Реактивный масштабируемый чат на Kotlin + Spring + WebSockets / Habr](https://habr.com/ru/amp/publications/552234/)
 
+![image.png](doc/img/image.png)
+
 **Описание проблемы:** что лучше юзать RabbitMQ или Kafka для event-source'инга и распределенного чата?
 
 **Решение:** Использовать rabbitMQ так как нам low latency нужна, а не high throghput
 
 [RabbitMQ vs. Kafka](https://www.confluent.io/learn/rabbitmq-vs-apache-kafka/#:~:text=RabbitMQ%20and%20Apache%20Kafka%20are,quick%20message%20publishing%20and%20deletion.)
-
-![image.png](doc/img/image.png)
 
 ## Доменная модель
 
