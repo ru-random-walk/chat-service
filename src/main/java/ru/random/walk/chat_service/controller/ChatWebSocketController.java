@@ -5,7 +5,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
-import ru.random.walk.chat_service.dto.message.Message;
+import ru.random.walk.chat_service.dto.response.Message;
 
 import java.security.Principal;
 import java.util.UUID;

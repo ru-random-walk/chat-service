@@ -11,14 +11,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.random.walk.chat_service.dto.chat.Chat;
-import ru.random.walk.chat_service.dto.message.Message;
-import ru.random.walk.chat_service.dto.pagination.Page;
-import ru.random.walk.chat_service.dto.pagination.PageRequest;
+import ru.random.walk.chat_service.dto.response.Chat;
+import ru.random.walk.chat_service.dto.response.Message;
+import ru.random.walk.chat_service.dto.response.message.payload.Text;
+import ru.random.walk.chat_service.dto.response.message.Type;
+import ru.random.walk.chat_service.dto.response.Page;
+import ru.random.walk.chat_service.dto.request.PageRequest;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -52,7 +54,18 @@ public class ChatRestController {
                         with to filter [{}]
                         """,
                 principal, chatId, pageRequest, message, from, to);
-        return new Page<>(Collections.emptyList(), 0, 0, 0);
+        return new Page<>(List.of(
+                new Message(
+                        UUID.randomUUID(),
+                        new Text("Some text message"),
+                        Type.TEXT,
+                        chatId,
+                        "sender_username",
+                        "recipient_username",
+                        true,
+                        LocalDateTime.of(2024, 9, 22, 18, 0)
+                )
+        ), 0, 0, 0);
     }
 
     @Operation(summary = "Get chat list")
@@ -68,6 +81,6 @@ public class ChatRestController {
                         with member username filter [{}]
                         """,
                 principal, pageRequest, memberUsername);
-        return new Page<>(Collections.emptyList(), 0, 0, 0);
+        return new Page<>(List.of(new Chat(UUID.randomUUID())), 0, 0, 0);
     }
 }

@@ -1,4 +1,4 @@
-package ru.random.walk.chat_service.dto.message;
+package ru.random.walk.chat_service.dto.response.message;
 
 public enum Type {
     TEXT,
