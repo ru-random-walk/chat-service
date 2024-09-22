@@ -13,6 +13,6 @@ import java.security.Principal;
 public class ChatWebSocketController {
     @MessageMapping
     public void sendMessage(Principal principal, @RequestBody MessageRequest messageRequest) {
-        log.info("{} sending message to chat {}", principal.getName(), messageRequest.chatId());
+        log.info("{} sending message to chat {}", principal, messageRequest.chatId());
     }
 }
