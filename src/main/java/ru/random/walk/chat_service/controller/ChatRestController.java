@@ -60,8 +60,6 @@ public class ChatRestController {
                         new Text("Some text message"),
                         Type.TEXT,
                         chatId,
-                        "sender_username",
-                        "recipient_username",
                         true,
                         LocalDateTime.of(2024, 9, 22, 18, 0)
                 )
