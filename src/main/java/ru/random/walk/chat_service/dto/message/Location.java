@@ -1,4 +1,4 @@
-package ru.random.walk.chat_service.model.message;
+package ru.random.walk.chat_service.dto.message;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

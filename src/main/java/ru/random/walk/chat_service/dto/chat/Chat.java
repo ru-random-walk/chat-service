@@ -1,4 +1,4 @@
-package ru.random.walk.chat_service.model.chat;
+package ru.random.walk.chat_service.dto.chat;
 
 import java.util.UUID;
 

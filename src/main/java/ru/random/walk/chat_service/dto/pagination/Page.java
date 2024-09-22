@@ -1,4 +1,4 @@
-package ru.random.walk.chat_service.model.pagination;
+package ru.random.walk.chat_service.dto.pagination;
 
 import java.util.List;
 

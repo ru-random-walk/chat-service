@@ -1,4 +1,4 @@
-package ru.random.walk.chat_service.model.message;
+package ru.random.walk.chat_service.dto.message;
 
 import java.sql.Timestamp;
 import java.util.UUID;

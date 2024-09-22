@@ -1,4 +1,4 @@
-package ru.random.walk.chat_service.model.filter;
+package ru.random.walk.chat_service.dto.filter;
 
 public record ChatFilter(
         String memberUsername
