@@ -15,6 +15,6 @@ import java.util.UUID;
 public class ChatWebSocketController {
     @MessageMapping("/{chatId}")
     public void sendMessage(Principal principal, @DestinationVariable UUID chatId, @RequestBody Message message) {
-        log.info("{} sending message to chat {}", principal.getName(), chatId);
+        log.info("{} sending message {} to chat {}", principal.getName(), message.id(), chatId);
     }
 }
