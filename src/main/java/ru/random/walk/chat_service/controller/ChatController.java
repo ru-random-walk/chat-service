@@ -1,5 +1,6 @@
 package ru.random.walk.chat_service.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +21,14 @@ import java.util.UUID;
 @Slf4j
 @RequestMapping("/chat")
 public class ChatController {
+    @Operation(summary = "Get chat message history")
     @GetMapping("/{chatId}")
     public Page<Message> getHistory(Principal principal, @PathVariable UUID chatId, @RequestBody MessagePageRequest messagePageRequest) {
         log.info("{} getting history page {} for chat {}", principal.getName(), messagePageRequest, chatId);
         return new Page<>(Collections.emptyList(), 0, 0, 0);
     }
 
+    @Operation(summary = "Get chat list")
     @GetMapping("/list")
     public Page<Chat> getChats(Principal principal, @RequestBody ChatPageRequest chatPageRequest) {
         log.info("{} getting history page {} for chats", principal.getName(), chatPageRequest);
