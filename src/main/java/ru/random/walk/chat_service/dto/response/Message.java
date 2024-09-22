@@ -1,5 +1,6 @@
 package ru.random.walk.chat_service.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.random.walk.chat_service.dto.response.message.Payload;
@@ -15,6 +16,7 @@ public record Message(
         UUID chatId,
         boolean markedAsRead,
         @Schema(example = "18:00 22-09-2024")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm dd-MM-yyyy")
         @DateTimeFormat(pattern = "HH:mm dd-MM-yyyy")
         LocalDateTime createdAt
 ) {
