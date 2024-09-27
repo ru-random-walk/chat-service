@@ -8,6 +8,7 @@ on:
 env:
   APP_NAME: chat-service
   IMAGE_NAME: random-walk-chat-service
+  DOCKER_REPO_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
 
 jobs:
   build-project-and-push-image:
@@ -99,6 +100,7 @@ jobs:
             --project $GKE_PROJECT
           helm upgrade $APP_NAME ./deploy/$APP_NAME/ \
             --set image.tag=$DOCKER_METADATA_OUTPUT_TAGS \
+            --set image.repository=$DOCKER_REPO_USERNAME/$IMAGE_NAME \
             --namespace chat-service \
             --install \
             --wait

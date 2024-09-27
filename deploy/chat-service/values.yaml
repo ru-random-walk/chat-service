@@ -5,10 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: randomwalkprj/random-walk-chat-service
   pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""
