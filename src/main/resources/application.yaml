@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: "Chat service"
+broker:
+  host: ${CHAT_SERVICE_BROKER_HOST:localhost}
+  port: ${CHAT_SERVICE_BROKER_PORT:61613}
+  client-login: ${CHAT_SERVICE_BROKER_CLIENT_LOGIN:admin}
+  client-passcode: ${CHAT_SERVICE_BROKER_CLIENT_PASSCODE:admin}
+  system-login: ${CHAT_SERVICE_BROKER_SYSTEM_LOGIN:admin}
+  system-passcode: ${CHAT_SERVICE_BROKER_SYSTEM_PASSCODE:admin}
