@@ -54,3 +54,49 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: build-project-and-push-image
+    environment:
+      name: approvers
+
+    env:
+      GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
+      GKE_ZONE: ${{ secrets.GKE_ZONE }}
+      GKE_CLUSTER: ${{ secrets.GKE_CLUSTER_NAME }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Auth to gcloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          version: '>= 363.0.0'
+
+      - name: Get image tag
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          tags: |
+            type=sha,enable=true,priority=100,prefix=,suffix=,format=short
+      # Install helm and gcloud component
+      - name: Install components
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash 
+          gcloud components install gke-gcloud-auth-plugin
+      - name: Deploy
+        run: |
+          gcloud container clusters get-credentials $GKE_CLUSTER \
+            --zone $GKE_ZONE \
+            --project $GKE_PROJECT
+          helm upgrade $APP_NAME ./deploy/$APP_NAME/ \
+            --set image.tag=$DOCKER_METADATA_OUTPUT_TAGS \
+            --namespace chat-service \
+            --install \
+            --wait
