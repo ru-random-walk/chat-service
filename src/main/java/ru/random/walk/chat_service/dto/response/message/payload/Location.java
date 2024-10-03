@@ -1,12 +1,16 @@
 package ru.random.walk.chat_service.dto.response.message.payload;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import ru.random.walk.chat_service.dto.response.message.Payload;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
 public class Location extends Payload {
     private final double longitude;
     private final double latitude;
+
+    public Location(String type, double longitude, double latitude) {
+        super(type);
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
 }
