@@ -1,5 +1,6 @@
 package ru.random.walk.chat_service.dto.response.message;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
@@ -17,5 +18,6 @@ import ru.random.walk.chat_service.dto.response.message.payload.Text;
 @AllArgsConstructor
 @Data
 public abstract class Payload {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private final String type;
 }
