@@ -35,3 +35,27 @@
 ## Доменная модель
 
 ![domain_model.svg](doc/img/domain_model.drawio.svg)
+
+## Websocket chat-service API
+
+Подключится к вебсокету можно например вот так:
+```javascript
+var socket = new SockJS('/ws');
+var stompClient = Stomp.over(socket);
+```
+
+Для отправки сообщения нужно вызвать ручку и добавить тело сообщения:
+```javascript
+stompClient.send("/app/sendMessage", {}, JSON.stringify(messageRequest));
+```
+
+Для подключения к топику чата по его UUID нужно подключиться к 
+урлу который перебрасывается на брокер:
+```javascript
+stompClient.connect({}, function (frame) {
+    stompClient.subscribe('/topic/chat/' + chatId, function (message) {
+        console.log('Received message: ' + message.body);
+        showMessage(JSON.parse(message.body).content);
+    });
+});
+```
