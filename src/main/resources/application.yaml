@@ -8,3 +8,5 @@ broker:
   client-passcode: ${CHAT_SERVICE_BROKER_CLIENT_PASSCODE:admin}
   system-login: ${CHAT_SERVICE_BROKER_SYSTEM_LOGIN:admin}
   system-passcode: ${CHAT_SERVICE_BROKER_SYSTEM_PASSCODE:admin}
+server:
+  port: 8080
