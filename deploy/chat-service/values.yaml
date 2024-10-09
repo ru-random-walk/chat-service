@@ -12,27 +12,17 @@ nameOverride: ""
 fullnameOverride: ""
 
 env:
-#  - name: SPRING_PROFILES_ACTIVE
-#    value: test
-#  - name: TZ
-#    value: Etc/UTC
+  - name: ACTIVEMQ_ARTEMIS_HOST
+    value: activemq-artemis.local
 
 secrets:
-  - name: CHAT_SERVICE_BROKER_CLIENT_LOGIN
-    secret_key: CHAT_SERVICE_BROKER_CLIENT_LOGIN
-    secret_name: artemis-secret
+  - name: ACTIVEMQ_ARTEMIS_LOGIN
+    secret_key: ARTEMIS_USER
+    secret_name: activemq-artemis-secret
 
-  - name: CHAT_SERVICE_BROKER_CLIENT_PASSCODE
-    secret_key: CHAT_SERVICE_BROKER_CLIENT_PASSCODE
-    secret_name: artemis-secret
-
-  - name: CHAT_SERVICE_BROKER_SYSTEM_LOGIN
-    secret_key: CHAT_SERVICE_BROKER_SYSTEM_LOGIN
-    secret_name: artemis-secret
-
-  - name: CHAT_SERVICE_BROKER_SYSTEM_PASSCODE
-    secret_key: CHAT_SERVICE_BROKER_SYSTEM_PASSCODE
-    secret_name: artemis-secret
+  - name: ACTIVEMQ_ARTEMIS_PASSWORD
+    secret_key: ARTEMIS_PASSWORD
+    secret_name: activemq-artemis-secret
 
 serviceAccount:
   # Specifies whether a service account should be created
