@@ -27,10 +27,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.enableStompBrokerRelay("/queue", "/topic")
                 .setRelayHost(brokerProps.host())
                 .setRelayPort(brokerProps.port())
-                .setClientLogin(brokerProps.clientLogin())
-                .setClientPasscode(brokerProps.clientPasscode())
-                .setSystemLogin(brokerProps.systemLogin())
-                .setSystemPasscode(brokerProps.systemPasscode())
+                .setClientLogin(brokerProps.login())
+                .setClientPasscode(brokerProps.password())
+                .setSystemLogin(brokerProps.login())
+                .setSystemPasscode(brokerProps.password())
                 .setUserDestinationBroadcast("/topic/unresolved-user")
                 .setUserRegistryBroadcast("/topic/log-user-registry");
         registry.setApplicationDestinationPrefixes("/app");
