@@ -3,7 +3,7 @@ spring:
     name: "Chat service"
 broker:
   host: ${ACTIVEMQ_ARTEMIS_HOST:localhost}
-  port: ${ACTIVEMQ_ARTEMIS_PORT:61613}
+  port: 61613
   login: ${ACTIVEMQ_ARTEMIS_LOGIN:admin}
   password: ${ACTIVEMQ_ARTEMIS_PASSWORD:admin}
 server:
