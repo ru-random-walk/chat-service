@@ -13,7 +13,9 @@ fullnameOverride: ""
 
 env:
   - name: ACTIVEMQ_ARTEMIS_HOST
-    value: activemq-artemis.activemq-artemis.svc.cluster.local
+    value: "activemq-artemis.activemq-artemis.svc.cluster.local"
+  - name: ACTIVEMQ_ARTEMIS_PORT
+    value: "61613"
 
 secrets:
   - name: ACTIVEMQ_ARTEMIS_LOGIN
