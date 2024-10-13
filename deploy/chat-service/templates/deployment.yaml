@@ -19,9 +19,9 @@ spec:
       {{- end }}
       labels:
         {{- include "chat-service.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
+          {{- with .Values.podLabels }}
+          {{- toYaml . | nindent 8 }}
+          {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -46,6 +46,22 @@ spec:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            {{- if .Values.secrets }}
+              {{- range .Values.secrets }}
+              - name: {{ .name }}
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ .secret_name }}
+                    key: {{ .secret_key }}
+              {{- end }}
+              {{- end }}
+              {{- if .Values.env }}
+              {{- range .Values.env }}
+              - name: {{ .name }}
+                value: {{ .value }}
+              {{- end }}
+              {{- end }}
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}

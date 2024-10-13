@@ -6,9 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public record BrokerProps(
         String host,
         int port,
-        String clientLogin,
-        String clientPasscode,
-        String systemLogin,
-        String systemPasscode
+        String login,
+        String password
 ) {
 }
