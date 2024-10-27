@@ -31,11 +31,12 @@ public class ChatController {
     ) {
         log.info("""
                         Get chat list for [{}]
+                        with login [{}]
                         with page number [{}]
                         with page size [{}]
                         with member username filter [{}]
                         """,
-                principal.getName(), pageNumber, pageSize, memberUsername);
+                principal, principal.getName(), pageNumber, pageSize, memberUsername);
         return new Page<>(List.of(new Chat(UUID.randomUUID())), 0, 0, 0);
     }
 }

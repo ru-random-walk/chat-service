@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Tag(name = "REST Message Controller")
 @RestController
@@ -43,6 +44,7 @@ public class MessageController {
     ) {
         log.info("""
                         Get message history for [{}]
+                        with login [{}]
                         with chat id [{}]
                         with page number [{}]
                         with page size [{}]
@@ -50,7 +52,7 @@ public class MessageController {
                         with from filter [{}]
                         with to filter [{}]
                         """,
-                principal, chatId, pageNumber, pageSize, message, from, to);
+                principal, principal.getName(), chatId, pageNumber, pageSize, message, from, to);
         return new Page<>(List.of(
                 new Message(
                         UUID.randomUUID(),
