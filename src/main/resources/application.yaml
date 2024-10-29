@@ -5,7 +5,7 @@ spring:
     oauth2:
           resourceserver:
             jwt:
-              issuer-uri: http://localhost:8081
+              issuer-uri: ${AUTH_SERVICE_URL:http://localhost:8081}
 broker:
   host: ${ACTIVEMQ_ARTEMIS_HOST:localhost}
   port: 61613
