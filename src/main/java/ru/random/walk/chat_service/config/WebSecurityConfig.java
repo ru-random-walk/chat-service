@@ -21,11 +21,15 @@ import java.util.stream.Collectors;
 public class WebSecurityConfig {
     public static final String[] AUTH_WHITELIST = {
             // Swagger
-            "/api/v1/auth/**",
+            "/configuration/security",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/swagger-resources",
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/webjars/**",
             "/v3/api-docs/**",
             "/v3/api-docs.yaml",
-            "/swagger-ui/**",
-            "/swagger-ui.html",
             // Spring boot actuator
             "/actuator/**"
     };
