@@ -15,6 +15,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("unused")
 @RestController
 @Slf4j
 @RequestMapping("/chat")
@@ -30,11 +31,12 @@ public class ChatController {
     ) {
         log.info("""
                         Get chat list for [{}]
+                        with login [{}]
                         with page number [{}]
                         with page size [{}]
                         with member username filter [{}]
                         """,
-                principal, pageNumber, pageSize, memberUsername);
+                principal, principal.getName(), pageNumber, pageSize, memberUsername);
         return new Page<>(List.of(new Chat(UUID.randomUUID())), 0, 0, 0);
     }
 }

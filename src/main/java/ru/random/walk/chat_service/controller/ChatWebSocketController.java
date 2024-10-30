@@ -10,6 +10,7 @@ import ru.random.walk.chat_service.dto.request.MessageRequest;
 
 import java.security.Principal;
 
+@SuppressWarnings("unused")
 @Controller
 @Slf4j
 @AllArgsConstructor
@@ -18,7 +19,12 @@ public class ChatWebSocketController {
 
     @MessageMapping("/sendMessage")
     public void sendMessage(Principal principal, @RequestBody MessageRequest messageRequest) {
-        log.info("{} sending message to chat {}", principal, messageRequest.chatId());
+        log.info("""
+                        [{}] send message to chat
+                        with login [{}]
+                        with chat id [{}]
+                        """,
+                principal, principal.getName(), messageRequest.chatId());
         messagingTemplate.convertAndSend("/topic/chat/" + messageRequest.chatId(), messageRequest);
     }
 }
