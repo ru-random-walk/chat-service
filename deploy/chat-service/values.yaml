@@ -15,7 +15,7 @@ env:
   - name: ACTIVEMQ_ARTEMIS_HOST
     value: "activemq-artemis.activemq-artemis.svc.cluster.local"
   - name: AUTH_SERVICE_URL
-    value: "auth-service.auth-service.svc.cluster.local:8081"
+    value: "auth-service.auth-service.svc.cluster.local:8080"
 
 secrets:
   - name: ACTIVEMQ_ARTEMIS_LOGIN
