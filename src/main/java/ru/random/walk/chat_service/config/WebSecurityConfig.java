@@ -26,6 +26,8 @@ public class WebSecurityConfig {
             "/v3/api-docs.yaml",
             "/swagger-ui/**",
             "/swagger-ui.html",
+            // Spring boot actuator
+            "/actuator/**"
     };
 
     @Bean
