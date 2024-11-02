@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.random.walk.chat_service.dto.response.Message;
-import ru.random.walk.chat_service.dto.response.Page;
-import ru.random.walk.chat_service.dto.response.message.Type;
-import ru.random.walk.chat_service.dto.response.message.payload.Text;
+import ru.random.walk.chat_service.model.dto.response.Message;
+import ru.random.walk.chat_service.model.dto.response.Page;
+import ru.random.walk.chat_service.model.dto.response.message.Type;
+import ru.random.walk.chat_service.model.dto.response.message.payload.Text;
 
 import java.security.Principal;
 import java.time.LocalDateTime;

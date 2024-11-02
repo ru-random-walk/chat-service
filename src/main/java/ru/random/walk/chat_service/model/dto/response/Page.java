@@ -1,4 +1,4 @@
-package ru.random.walk.chat_service.dto.response;
+package ru.random.walk.chat_service.model.dto.response;
 
 import java.util.List;
 

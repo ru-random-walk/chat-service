@@ -1,10 +1,10 @@
-package ru.random.walk.chat_service.dto.response.message.payload;
+package ru.random.walk.chat_service.model.dto.response.message.payload;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
-import ru.random.walk.chat_service.dto.response.message.Payload;
+import ru.random.walk.chat_service.model.dto.response.message.Payload;
 
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;

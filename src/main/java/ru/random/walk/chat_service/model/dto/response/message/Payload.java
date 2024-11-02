@@ -1,13 +1,13 @@
-package ru.random.walk.chat_service.dto.response.message;
+package ru.random.walk.chat_service.model.dto.response.message;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.random.walk.chat_service.dto.response.message.payload.Location;
-import ru.random.walk.chat_service.dto.response.message.payload.RequestForWalk;
-import ru.random.walk.chat_service.dto.response.message.payload.Text;
+import ru.random.walk.chat_service.model.dto.response.message.payload.Location;
+import ru.random.walk.chat_service.model.dto.response.message.payload.RequestForWalk;
+import ru.random.walk.chat_service.model.dto.response.message.payload.Text;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
 @JsonSubTypes({

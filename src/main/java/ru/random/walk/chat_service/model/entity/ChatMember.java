@@ -1,4 +1,4 @@
-package ru.random.walk.chat_service.entity;
+package ru.random.walk.chat_service.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
