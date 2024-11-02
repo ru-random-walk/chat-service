@@ -28,10 +28,10 @@ public class ChatMember {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ChatMemberId implements Serializable {
-        @Column(nullable = false)
+        @Column(name = "chat_id", nullable = false)
         private UUID chatId;
 
-        @Column(nullable = false)
+        @Column(name = "user_id", nullable = false)
         private UUID userId;
     }
 }
