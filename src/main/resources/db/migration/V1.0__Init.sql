@@ -39,7 +39,8 @@ CREATE TABLE IF NOT EXISTS chat.chat_members
 (
     chat_id uuid NOT NULL,
     user_id uuid NOT NULL,
-    FOREIGN KEY (chat_id) REFERENCES chat.chat (id)
+    FOREIGN KEY (chat_id) REFERENCES chat.chat (id),
+    unique (chat_id, user_id)
 );
 
 -- Создание таблицы 'message', если она не существует
