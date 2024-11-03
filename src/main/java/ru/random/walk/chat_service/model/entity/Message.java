@@ -36,4 +36,14 @@ public class Message {
 
     @Column(nullable = false)
     private LocalDateTime sentAt;
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "sentAt=" + sentAt +
+                ", markedAsRead=" + markedAsRead +
+                ", type=" + type +
+                ", id=" + id +
+                '}';
+    }
 }

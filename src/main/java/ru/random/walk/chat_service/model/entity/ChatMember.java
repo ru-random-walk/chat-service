@@ -34,4 +34,11 @@ public class ChatMember {
         @Column(name = "user_id", nullable = false)
         private UUID userId;
     }
+
+    @Override
+    public String toString() {
+        return "ChatMember{" +
+                "id=" + id +
+                '}';
+    }
 }
