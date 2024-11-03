@@ -34,8 +34,8 @@ public class ChatController {
     public Page<Chat> getChats(
             Principal principal,
             @RequestParam @Schema(example = "0") Integer pageNumber,
-            @RequestParam @Schema(example = "30")
-            @Range(min = 1, max = 30)
+            @RequestParam @Schema(example = "15")
+            @Range(min = 1, max = 15)
             Integer pageSize,
             @RequestParam UUID memberUsername
     ) {
