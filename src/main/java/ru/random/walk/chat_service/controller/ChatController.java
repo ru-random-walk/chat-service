@@ -3,6 +3,7 @@ package ru.random.walk.chat_service.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
@@ -33,9 +34,13 @@ public class ChatController {
     @GetMapping("/list")
     public Page<Chat> getChats(
             Principal principal,
-            @RequestParam @Schema(example = "0") Integer pageNumber,
-            @RequestParam @Schema(example = "15")
-            @Range(min = 1, max = 15)
+            @RequestParam
+            @Schema(example = "0")
+            @Min(value = 0, message = "pageNumber must be >= 0")
+            Integer pageNumber,
+            @RequestParam
+            @Schema(example = "15")
+            @Range(min = 1, max = 15, message = "pageSize must be in range from 1 to 15")
             Integer pageSize,
             @RequestParam UUID memberUsername
     ) {

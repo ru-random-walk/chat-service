@@ -10,6 +10,7 @@ import ru.random.walk.chat_service.model.dto.ApiErrorDto;
 import ru.random.walk.chat_service.model.exception.AuthenticationException;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @RestControllerAdvice
 @Slf4j
@@ -24,7 +25,10 @@ public class GlobalControllerAdvice {
     public ResponseEntity<ApiErrorDto> validationException(HandlerMethodValidationException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiErrorDto.of(
-                        Arrays.toString(e.getDetailMessageArguments())
+                        Arrays.stream(Objects.requireNonNull(e.getDetailMessageArguments()))
+                                .map(Object::toString)
+                                .reduce(String::concat)
+                                .orElse("...")
                 ));
     }
 
