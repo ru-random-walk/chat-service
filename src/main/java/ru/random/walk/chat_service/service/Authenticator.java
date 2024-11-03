@@ -8,9 +8,9 @@ import java.util.UUID;
 
 @Service
 public class Authenticator {
-    public void auth(Principal principal, UUID memberUsername) {
+    public void auth(Principal principal, UUID userId) {
         var login = UUID.fromString(principal.getName());
-        if (!login.equals(memberUsername)) {
+        if (!login.equals(userId)) {
             throw new AuthenticationException("MemberUsername mismatch with credentials!");
         }
     }
