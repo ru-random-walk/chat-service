@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.random.walk.chat_service.controller.validation.PageableConstraint;
-import ru.random.walk.chat_service.model.dto.response.Message;
+import ru.random.walk.chat_service.model.dto.response.MessageDto;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -26,7 +26,7 @@ import java.util.UUID;
 public class MessageController {
     @Operation(summary = "Message List")
     @GetMapping("/list")
-    public Page<Message> getHistory(
+    public Page<MessageDto> getHistory(
             Principal principal,
             @PageableConstraint(maxPageSize = 100, message = "PageSize must be <= 100!")
             Pageable pageable,

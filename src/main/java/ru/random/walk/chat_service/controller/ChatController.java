@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.random.walk.chat_service.controller.validation.PageableConstraint;
-import ru.random.walk.chat_service.model.dto.response.Chat;
+import ru.random.walk.chat_service.model.dto.response.ChatDto;
 import ru.random.walk.chat_service.service.Authenticator;
 import ru.random.walk.chat_service.service.ChatService;
 
@@ -30,7 +30,7 @@ public class ChatController {
 
     @Operation(summary = "Chat List")
     @GetMapping("/list")
-    public Page<Chat> getChats(
+    public Page<ChatDto> getChats(
             Principal principal,
             @PageableConstraint(maxPageSize = 30, message = "Page size must be <= 30!")
             Pageable pageable,

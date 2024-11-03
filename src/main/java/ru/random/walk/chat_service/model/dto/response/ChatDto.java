@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.util.UUID;
 
 @Builder
-public record Chat(
+public record ChatDto(
         UUID id
 ) {
 }
