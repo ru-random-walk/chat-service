@@ -3,16 +3,20 @@ package ru.random.walk.chat_service.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.random.walk.chat_service.dto.response.Chat;
-import ru.random.walk.chat_service.dto.response.Page;
+import ru.random.walk.chat_service.model.domain.PageRequest;
+import ru.random.walk.chat_service.model.dto.response.Chat;
+import ru.random.walk.chat_service.model.dto.response.Page;
+import ru.random.walk.chat_service.service.Authenticator;
+import ru.random.walk.chat_service.service.ChatService;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
@@ -20,23 +24,30 @@ import java.util.UUID;
 @Slf4j
 @RequestMapping("/chat")
 @Tag(name = "REST Chat Controller")
+@AllArgsConstructor
 public class ChatController {
+    private final ChatService chatService;
+    private final Authenticator authenticator;
+
     @Operation(summary = "Chat List")
     @GetMapping("/list")
     public Page<Chat> getChats(
             Principal principal,
-            @RequestParam @Schema(example = "0") long pageNumber,
-            @RequestParam @Schema(example = "1") long pageSize,
-            @RequestParam(required = false) String memberUsername
+            Authentication authentication,
+            @RequestParam @Schema(example = "0") Integer pageNumber,
+            @RequestParam @Schema(example = "1") Integer pageSize,
+            @RequestParam UUID memberUsername
     ) {
         log.info("""
                         Get chat list for [{}]
+                        with authentication [{}]
                         with login [{}]
                         with page number [{}]
                         with page size [{}]
-                        with member username filter [{}]
+                        with member username [{}]
                         """,
-                principal, principal.getName(), pageNumber, pageSize, memberUsername);
-        return new Page<>(List.of(new Chat(UUID.randomUUID())), 0, 0, 0);
+                principal, authentication, principal.getName(), pageNumber, pageSize, memberUsername);
+        authenticator.auth(principal, memberUsername);
+        return chatService.getChatPageByMemberUsername(PageRequest.of(pageNumber, pageSize), memberUsername);
     }
 }
