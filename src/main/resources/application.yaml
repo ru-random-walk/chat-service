@@ -21,3 +21,7 @@ broker:
   password: ${ACTIVEMQ_ARTEMIS_PASSWORD:admin}
 server:
   port: 8080
+logging:
+  level:
+    ru.random.walk.chat_service:
+      ${GENERAL_LOGGING_LEVEL:DEBUG}

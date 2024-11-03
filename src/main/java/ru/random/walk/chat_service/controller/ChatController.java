@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +34,9 @@ public class ChatController {
     public Page<Chat> getChats(
             Principal principal,
             @RequestParam @Schema(example = "0") Integer pageNumber,
-            @RequestParam @Schema(example = "1") Integer pageSize,
+            @RequestParam @Schema(example = "30")
+            @Range(min = 1, max = 30)
+            Integer pageSize,
             @RequestParam UUID memberUsername
     ) {
         log.info("""
