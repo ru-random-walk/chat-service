@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,20 +32,18 @@ public class ChatController {
     @GetMapping("/list")
     public Page<Chat> getChats(
             Principal principal,
-            Authentication authentication,
             @RequestParam @Schema(example = "0") Integer pageNumber,
             @RequestParam @Schema(example = "1") Integer pageSize,
             @RequestParam UUID memberUsername
     ) {
         log.info("""
                         Get chat list for [{}]
-                        with authentication [{}]
                         with login [{}]
                         with page number [{}]
                         with page size [{}]
                         with member username [{}]
                         """,
-                principal, authentication, principal.getName(), pageNumber, pageSize, memberUsername);
+                principal, principal.getName(), pageNumber, pageSize, memberUsername);
         authenticator.auth(principal, memberUsername);
         return chatService.getChatPageByMemberUsername(PageRequest.of(pageNumber, pageSize), memberUsername);
     }
