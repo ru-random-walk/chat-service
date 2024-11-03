@@ -31,7 +31,7 @@ public class GlobalControllerAdvice {
                         Arrays.stream(Objects.requireNonNull(e.getDetailMessageArguments()))
                                 .map(Object::toString)
                                 .reduce(String::concat)
-                                .orElse("...")
+                                .orElse("Validation Error!")
                 ));
     }
 
