@@ -36,10 +36,6 @@ public class Message {
     @Column(nullable = false)
     private MessageType type;
 
-    @ManyToOne
-    @JoinColumn(name = "chat_id", referencedColumnName = "id")
-    private Chat chat;
-
     @Column(nullable = false)
     private boolean markedAsRead;
 
