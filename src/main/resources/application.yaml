@@ -1,4 +1,7 @@
 spring:
+  flyway:
+    default-schema: chat
+    table: flyway_schema_history
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${RANDOM_WALK_POSTGRES_URL:jdbc:postgresql://localhost:5432/random_walk_postgres}
