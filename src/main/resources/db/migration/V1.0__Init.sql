@@ -1,56 +1,56 @@
--- Создание схемы 'chat', если она не существует
-CREATE SCHEMA IF NOT EXISTS chat;
+-- создание схемы 'chat', если она не существует
+create schema if not exists chat;
 
--- Создание типа 'chat_type', если он не существует
-DO
+-- создание типа 'chat_type', если он не существует
+do
 $$
-    BEGIN
-        PERFORM 1
-        FROM pg_type
-        WHERE typname = 'chat_type';
-        IF NOT FOUND THEN
-            CREATE TYPE chat.chat_type AS ENUM ('PRIVATE', 'GROUP');
-        END IF;
-    END
+    begin
+        perform 1
+        from pg_type
+        where typname = 'chat_type';
+        if not found then
+            create type chat.chat_type as enum ('PRIVATE', 'GROUP');
+        end if;
+    end
 $$;
 
--- Создание типа 'message_type', если он не существует
-DO
+-- создание типа 'message_type', если он не существует
+do
 $$
-    BEGIN
-        PERFORM 1
-        FROM pg_type
-        WHERE typname = 'message_type';
-        IF NOT FOUND THEN
-            CREATE TYPE chat.message_type AS ENUM ('TEXT', 'REQUEST_FOR_WALK');
-        END IF;
-    END
+    begin
+        perform 1
+        from pg_type
+        where typname = 'message_type';
+        if not found then
+            create type chat.message_type as enum ('TEXT', 'REQUEST_FOR_WALK');
+        end if;
+    end
 $$;
 
--- Создание таблицы 'chat', если она не существует
-CREATE TABLE IF NOT EXISTS chat.chat
+-- создание таблицы 'chat', если она не существует
+create table if not exists chat.chat
 (
-    id   uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-    type chat.chat_type NOT NULL
+    id   uuid default gen_random_uuid() primary key,
+    type chat.chat_type not null
 );
 
--- Создание таблицы 'chat_members', если она не существует
-CREATE TABLE IF NOT EXISTS chat.chat_members
+-- создание таблицы 'chat_members', если она не существует
+create table if not exists chat.chat_members
 (
-    chat_id uuid NOT NULL,
-    user_id uuid NOT NULL,
-    FOREIGN KEY (chat_id) REFERENCES chat.chat (id),
+    chat_id uuid not null,
+    user_id uuid not null,
+    foreign key (chat_id) references chat.chat (id),
     unique (chat_id, user_id)
 );
 
--- Создание таблицы 'message', если она не существует
-CREATE TABLE IF NOT EXISTS chat.message
+-- создание таблицы 'message', если она не существует
+create table if not exists chat.message
 (
-    id             uuid    DEFAULT gen_random_uuid() PRIMARY KEY,
-    payload        jsonb                 NOT NULL,
-    type           chat.message_type     NOT NULL,
-    chat_id        uuid                  NOT NULL,
-    marked_as_read boolean DEFAULT false NOT NULL,
-    sent_at        timestamp             NOT NULL,
-    FOREIGN KEY (chat_id) REFERENCES chat.chat (id)
+    id             uuid    default gen_random_uuid() primary key,
+    payload        jsonb                 not null,
+    type           chat.message_type     not null,
+    chat_id        uuid                  not null,
+    marked_as_read boolean default false not null,
+    sent_at        timestamp             not null,
+    foreign key (chat_id) references chat.chat (id)
 );
