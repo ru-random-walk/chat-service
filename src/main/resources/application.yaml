@@ -4,9 +4,9 @@ spring:
     table: flyway_schema_history
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${RANDOM_WALK_POSTGRES_URL:jdbc:postgresql://localhost:5432/random_walk_postgres}
-    username: ${RANDOM_WALK_POSTGRES_USERNAME:postgres}
-    password: ${RANDOM_WALK_POSTGRES_PASSWORD:postgres}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/random_walk_postgres}
+    username: ${POSTGRES_USERNAME:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
   application:
     name: "Chat service"
   security:
