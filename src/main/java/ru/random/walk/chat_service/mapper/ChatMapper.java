@@ -8,5 +8,5 @@ import ru.random.walk.chat_service.model.entity.ChatMemberEntity;
 @Mapper(componentModel = "spring")
 public interface ChatMapper {
     @Mapping(source = "chatMemberEntity.id.chatId", target = "id")
-    ChatDto chatMembertoChatDto(ChatMemberEntity chatMemberEntity);
+    ChatDto chatMemberToChatDto(ChatMemberEntity chatMemberEntity);
 }
