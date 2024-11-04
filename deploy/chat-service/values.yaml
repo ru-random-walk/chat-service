@@ -32,11 +32,11 @@ secrets:
 
   - name: POSTGRES_USERNAME
     secret_key: POSTGRES_USERNAME
-    secret_name: postgres-secret
+    secret_name: chat-postgres-secret
 
   - name: POSTGRES_PASSWORD
     secret_key: POSTGRES_PASSWORD
-    secret_name: postgres-secret
+    secret_name: chat-postgres-secret
 
 serviceAccount:
   # Specifies whether a service account should be created
