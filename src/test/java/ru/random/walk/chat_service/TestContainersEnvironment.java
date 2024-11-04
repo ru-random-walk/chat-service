@@ -17,6 +17,7 @@ import java.sql.SQLException;
 public abstract class TestContainersEnvironment {
     @Container
     public static final JdbcDatabaseContainer<?> DATABASE_CONTAINER;
+
     static {
         DATABASE_CONTAINER = new PostgreSQLContainer<>("postgres:latest")
                 .withDatabaseName("random_walk_postgres")
@@ -36,7 +37,10 @@ public abstract class TestContainersEnvironment {
                     .dataSource(TestContainersEnvironment.DATABASE_CONTAINER.getJdbcUrl(),
                             TestContainersEnvironment.DATABASE_CONTAINER.getUsername(),
                             TestContainersEnvironment.DATABASE_CONTAINER.getPassword())
-                    .locations("filesystem:src/main/resources/db/migration")
+                    .locations(
+                            "filesystem:src/main/resources/db/migration/local",
+                            "filesystem:src/main/resources/db/migration"
+                    )
                     .defaultSchema("chat")
                     .load();
             flyway.migrate();

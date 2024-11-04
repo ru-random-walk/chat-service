@@ -1,6 +1,3 @@
--- создание схемы 'chat', если она не существует
-create schema if not exists chat;
-
 -- создание типа 'chat_type', если он не существует
 do
 $$
