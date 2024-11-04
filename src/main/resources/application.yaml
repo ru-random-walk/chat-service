@@ -14,7 +14,7 @@ spring:
         jwt:
           issuer-uri: ${AUTH_SERVICE_URL:http://localhost:8081}
   flyway:
-    locations: ${FLYWAY_MIGRATION_LOCATIONS:classpath:db/migration/local,classpath:db/migration}
+    locations: ${FLYWAY_MIGRATION_LOCATIONS:classpath:db/local_migration,classpath:db/migration}
 broker:
   host: ${ACTIVEMQ_ARTEMIS_HOST:localhost}
   port: 61613

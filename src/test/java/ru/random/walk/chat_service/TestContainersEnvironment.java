@@ -38,7 +38,7 @@ public abstract class TestContainersEnvironment {
                             TestContainersEnvironment.DATABASE_CONTAINER.getUsername(),
                             TestContainersEnvironment.DATABASE_CONTAINER.getPassword())
                     .locations(
-                            "filesystem:src/main/resources/db/migration/local",
+                            "filesystem:src/main/resources/db/local_migration",
                             "filesystem:src/main/resources/db/migration"
                     )
                     .defaultSchema("chat")
