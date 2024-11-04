@@ -4,7 +4,7 @@ import java.util.UUID;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 import ru.random.walk.chat_service.model.dto.response.ChatDto;
-import ru.random.walk.chat_service.model.entity.ChatMember;
+import ru.random.walk.chat_service.model.entity.ChatMemberEntity;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
@@ -15,7 +15,7 @@ import ru.random.walk.chat_service.model.entity.ChatMember;
 public class ChatMapperImpl implements ChatMapper {
 
     @Override
-    public ChatDto chatMembertoChatDto(ChatMember chatMember) {
+    public ChatDto chatMembertoChatDto(ChatMemberEntity chatMember) {
         if ( chatMember == null ) {
             return null;
         }
@@ -27,8 +27,8 @@ public class ChatMapperImpl implements ChatMapper {
         return chatDto.build();
     }
 
-    private UUID chatMemberIdChatId(ChatMember chatMember) {
-        ChatMember.ChatMemberId id = chatMember.getId();
+    private UUID chatMemberIdChatId(ChatMemberEntity chatMember) {
+        ChatMemberEntity.ChatMemberId id = chatMember.getId();
         if ( id == null ) {
             return null;
         }

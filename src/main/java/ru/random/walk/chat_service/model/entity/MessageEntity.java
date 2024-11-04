@@ -7,16 +7,15 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.random.walk.chat_service.model.entity.type.MessageType;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -25,25 +24,29 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-@Table(name = "chat", schema = "chat")
-public class Chat {
+@Table(name = "chat_members", schema = "chat")
+public class MessageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ChatType type;
+    private MessageType type;
 
-    @OneToMany
-    @JoinColumn(name = "chat_id")
-    private List<Message> messages;
+    @Column(nullable = false)
+    private boolean markedAsRead;
+
+    @Column(nullable = false)
+    private LocalDateTime sentAt;
 
     @Override
     public String toString() {
-        return "Chat{" +
-                "id=" + id +
+        return "Message{" +
+                "sentAt=" + sentAt +
+                ", markedAsRead=" + markedAsRead +
                 ", type=" + type +
+                ", id=" + id +
                 '}';
     }
 }

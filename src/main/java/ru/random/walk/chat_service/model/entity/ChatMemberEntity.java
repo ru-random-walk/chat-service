@@ -22,7 +22,7 @@ import java.util.UUID;
 @Setter
 @Builder
 @Table(name = "chat_members", schema = "chat")
-public class ChatMember {
+public class ChatMemberEntity {
     @EmbeddedId
     private ChatMemberId id;
 
