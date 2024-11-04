@@ -20,6 +20,8 @@ env:
     value: "INFO"
   - name: POSTGRES_URL
     value: "jdbc:postgresql://postgres-postgresql.default.svc.cluster.local:5432/random_walk_postgres"
+  - name: FLYWAY_MIGRATION_LOCATIONS
+    value: "classpath:db/migration"
 
 secrets:
   - name: ACTIVEMQ_ARTEMIS_LOGIN
