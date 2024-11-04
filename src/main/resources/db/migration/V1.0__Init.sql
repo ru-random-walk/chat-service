@@ -9,7 +9,7 @@ $$
         FROM pg_type
         WHERE typname = 'chat_type';
         IF NOT FOUND THEN
-            CREATE TYPE chat.chat_type AS ENUM ('private', 'group');
+            CREATE TYPE chat.chat_type AS ENUM ('PRIVATE', 'GROUP');
         END IF;
     END
 $$;
@@ -22,7 +22,7 @@ $$
         FROM pg_type
         WHERE typname = 'message_type';
         IF NOT FOUND THEN
-            CREATE TYPE chat.message_type AS ENUM ('text', 'request_for_walk');
+            CREATE TYPE chat.message_type AS ENUM ('TEXT', 'REQUEST_FOR_WALK');
         END IF;
     END
 $$;
