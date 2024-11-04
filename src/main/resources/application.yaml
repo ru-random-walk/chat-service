@@ -1,11 +1,20 @@
 spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/random_walk_postgres}
+    username: ${POSTGRES_USERNAME:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+    hikari:
+      schema: chat
   application:
     name: "Chat service"
   security:
     oauth2:
-          resourceserver:
-            jwt:
-              issuer-uri: ${AUTH_SERVICE_URL:http://localhost:8081}
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH_SERVICE_URL:http://localhost:8081}
+  flyway:
+    locations: ${FLYWAY_MIGRATION_LOCATIONS:classpath:db/local_migration,classpath:db/migration}
 broker:
   host: ${ACTIVEMQ_ARTEMIS_HOST:localhost}
   port: 61613
@@ -13,3 +22,7 @@ broker:
   password: ${ACTIVEMQ_ARTEMIS_PASSWORD:admin}
 server:
   port: 8080
+logging:
+  level:
+    ru.random.walk.chat_service:
+      ${GENERAL_LOGGING_LEVEL:DEBUG}

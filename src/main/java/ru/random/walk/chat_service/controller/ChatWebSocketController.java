@@ -6,7 +6,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
-import ru.random.walk.chat_service.dto.request.MessageRequest;
+import ru.random.walk.chat_service.model.dto.request.MessageRequestDto;
 
 import java.security.Principal;
 
@@ -18,13 +18,13 @@ public class ChatWebSocketController {
     private final SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/sendMessage")
-    public void sendMessage(Principal principal, @RequestBody MessageRequest messageRequest) {
+    public void sendMessage(Principal principal, @RequestBody MessageRequestDto messageRequestDto) {
         log.info("""
                         [{}] send message to chat
                         with login [{}]
                         with chat id [{}]
                         """,
-                principal, principal.getName(), messageRequest.chatId());
-        messagingTemplate.convertAndSend("/topic/chat/" + messageRequest.chatId(), messageRequest);
+                principal, principal.getName(), messageRequestDto.chatId());
+        messagingTemplate.convertAndSend("/topic/chat/" + messageRequestDto.chatId(), messageRequestDto);
     }
 }

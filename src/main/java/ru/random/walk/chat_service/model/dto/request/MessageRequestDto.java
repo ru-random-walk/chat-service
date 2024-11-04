@@ -1,17 +1,17 @@
-package ru.random.walk.chat_service.dto.request;
+package ru.random.walk.chat_service.model.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
-import ru.random.walk.chat_service.dto.response.message.Payload;
-import ru.random.walk.chat_service.dto.response.message.Type;
+import ru.random.walk.chat_service.model.dto.response.message.PayloadDto;
+import ru.random.walk.chat_service.model.dto.response.message.Type;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
-public record MessageRequest(
-        Payload payload,
+public record MessageRequestDto(
+        PayloadDto payloadDto,
         Type type,
         UUID chatId,
         @Schema(example = "18:00 22-09-2024")

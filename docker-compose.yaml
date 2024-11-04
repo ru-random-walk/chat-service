@@ -16,7 +16,18 @@ services:
     volumes:
       - activemq_data:/data/activemq
       - activemq_log:/var/log/activemq
-
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=random_walk_postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
 volumes:
   activemq_data:
   activemq_log:
+  db_data:

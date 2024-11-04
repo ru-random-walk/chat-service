@@ -16,6 +16,12 @@ env:
     value: "activemq-artemis.activemq-artemis.svc.cluster.local"
   - name: AUTH_SERVICE_URL
     value: "auth-service.auth-service.svc.cluster.local:8080"
+  - name: GENERAL_LOGGING_LEVEL
+    value: "INFO"
+  - name: POSTGRES_URL
+    value: "jdbc:postgresql://postgres-postgresql.default.svc.cluster.local:5432/random_walk_postgres"
+  - name: FLYWAY_MIGRATION_LOCATIONS
+    value: "classpath:db/migration"
 
 secrets:
   - name: ACTIVEMQ_ARTEMIS_LOGIN
@@ -25,6 +31,14 @@ secrets:
   - name: ACTIVEMQ_ARTEMIS_PASSWORD
     secret_key: ARTEMIS_PASSWORD
     secret_name: activemq-artemis-secret
+
+  - name: POSTGRES_USERNAME
+    secret_key: POSTGRES_USERNAME
+    secret_name: chat-postgres-secret
+
+  - name: POSTGRES_PASSWORD
+    secret_key: POSTGRES_PASSWORD
+    secret_name: chat-postgres-secret
 
 serviceAccount:
   # Specifies whether a service account should be created
