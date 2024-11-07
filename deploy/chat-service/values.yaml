@@ -22,6 +22,10 @@ env:
     value: "jdbc:postgresql://postgres-postgresql.default.svc.cluster.local:5432/random_walk_postgres"
   - name: FLYWAY_MIGRATION_LOCATIONS
     value: "classpath:db/migration"
+  - name: LOGGING_SHOW_JPA_QUERIES
+    value: "false"
+  - name: LOGGING_SHOW_BINDING_JPA_VALUES_LEVEL
+    value: "INFO"
 
 secrets:
   - name: ACTIVEMQ_ARTEMIS_LOGIN
