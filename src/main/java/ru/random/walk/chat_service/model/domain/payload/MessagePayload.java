@@ -1,6 +1,5 @@
 package ru.random.walk.chat_service.model.domain.payload;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
@@ -20,6 +19,4 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class MessagePayload {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private final String type;
 }

@@ -1,27 +1,15 @@
 package ru.random.walk.chat_service.model.domain.payload;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class LocationPayload extends MessagePayload {
     private double longitude;
     private double latitude;
-
-    @SuppressWarnings("unused")
-    public LocationPayload() {
-        super("location");
-    }
-
-    protected LocationPayload(String type, double longitude, double latitude) {
-        super(type);
-        this.longitude = longitude;
-        this.latitude = latitude;
-    }
-
-    @SuppressWarnings("unused")
-    public LocationPayload(double longitude, double latitude) {
-        this("location", longitude, latitude);
-    }
 }

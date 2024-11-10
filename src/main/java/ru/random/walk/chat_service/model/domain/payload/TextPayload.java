@@ -1,24 +1,14 @@
 package ru.random.walk.chat_service.model.domain.payload;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TextPayload extends MessagePayload {
     private String text;
-
-    @SuppressWarnings("unused")
-    public TextPayload() {
-        super("text");
-    }
-
-    protected TextPayload(String text, String type) {
-        super(type);
-        this.text = text;
-    }
-
-    public TextPayload(String text) {
-        this(text, "text");
-    }
 }
