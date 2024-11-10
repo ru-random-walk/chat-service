@@ -15,4 +15,5 @@ import java.lang.annotation.Target;
 @DateTimeFormat(pattern = "HH:mm dd-MM-yyyy")
 @Schema(example = "18:00 22-09-2024")
 public @interface GlobalDateTimeFormat {
+    String DEFAULT_PATTERN = "HH:mm dd-MM-yyyy";
 }

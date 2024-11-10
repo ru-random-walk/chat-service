@@ -3,8 +3,6 @@ package ru.random.walk.chat_service.model.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,7 +17,6 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import ru.random.walk.chat_service.converter.MessagePayloadConverter;
 import ru.random.walk.chat_service.model.domain.payload.MessagePayload;
-import ru.random.walk.chat_service.model.entity.type.MessageType;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -40,10 +37,6 @@ public class MessageEntity {
     @JdbcTypeCode(SqlTypes.JSON)
     private MessagePayload payload;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private MessageType type;
-
     @Column(name = "chat_id")
     private UUID chatId;
 
@@ -53,14 +46,4 @@ public class MessageEntity {
     @Column(nullable = false)
     @CreationTimestamp
     private LocalDateTime sentAt;
-
-    @Override
-    public String toString() {
-        return "Message{" +
-                "sentAt=" + sentAt +
-                ", markedAsRead=" + markedAsRead +
-                ", type=" + type +
-                ", id=" + id +
-                '}';
-    }
 }

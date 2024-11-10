@@ -13,7 +13,6 @@ import java.util.UUID;
 public record MessageDto(
         UUID id,
         MessagePayload payload,
-        MessageType type,
         UUID chatId,
         boolean markedAsRead,
         @Schema(example = "18:00 22-09-2024")
