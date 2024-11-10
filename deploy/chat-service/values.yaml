@@ -23,7 +23,7 @@ env:
   - name: FLYWAY_MIGRATION_LOCATIONS
     value: "classpath:db/migration"
   - name: LOGGING_SHOW_JPA_QUERIES
-    value: 'false'
+    value: "false"
   - name: LOGGING_SHOW_BINDING_JPA_VALUES_LEVEL
     value: "INFO"
 
