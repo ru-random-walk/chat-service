@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
-import ru.random.walk.chat_service.TestContainersEnvironment;
+import ru.random.walk.chat_service.AbstractPostgresContainerTest;
 import ru.random.walk.chat_service.model.entity.ChatEntity;
 import ru.random.walk.chat_service.model.entity.MessageEntity;
 import ru.random.walk.chat_service.model.entity.payload.LocationPayload;
@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class MessageRepositoryTest extends TestContainersEnvironment {
+class MessageRepositoryTest extends AbstractPostgresContainerTest {
     @Autowired
     private MessageRepository messageRepository;
     @Autowired
