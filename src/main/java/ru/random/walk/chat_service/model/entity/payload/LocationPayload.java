@@ -6,10 +6,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LocationPayload extends MessagePayload {
-    private final double longitude;
-    private final double latitude;
+    private double longitude;
+    private double latitude;
 
-    public LocationPayload(String type, double longitude, double latitude) {
+    @SuppressWarnings("unused")
+    public LocationPayload() {
+        super("location");
+    }
+
+    protected LocationPayload(String type, double longitude, double latitude) {
         super(type);
         this.longitude = longitude;
         this.latitude = latitude;

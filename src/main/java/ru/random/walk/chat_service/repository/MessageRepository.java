@@ -18,7 +18,7 @@ public interface MessageRepository extends PagingAndSortingRepository<MessageEnt
                     select * from chat.message
                     where (
                         chat_id = :chatId and
-                        payload->>'text' like :message and
+                        (:message is null or payload->>'text' like :message) and
                         (cast(:from as timestamp) is null or sent_at >= :from) and
                         (cast(:to as timestamp) is null or sent_at <= :to)
                     )

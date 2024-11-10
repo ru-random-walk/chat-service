@@ -73,7 +73,7 @@ create table if not exists chat.message
     payload        jsonb                   not null,
     type           chat.message_type       not null,
     chat_id        uuid                    not null,
-    marked_as_read boolean   default false not null,
-    sent_at        timestamp default now() not null,
+    marked_as_read boolean   default false,
+    sent_at        timestamp default now(),
     foreign key (chat_id) references chat.chat (id)
 );

@@ -19,10 +19,14 @@ public class RequestForWalkDto extends PayloadDto {
     @Nullable
     private final Boolean answer;
 
-    public RequestForWalkDto(String type, LocationDto locationDto, LocalDateTime startsAt, @Nullable Boolean answer) {
+    protected RequestForWalkDto(String type, LocationDto locationDto, LocalDateTime startsAt, @Nullable Boolean answer) {
         super(type);
         this.locationDto = locationDto;
         this.startsAt = startsAt;
         this.answer = answer;
+    }
+
+    public RequestForWalkDto(LocationDto locationDto, LocalDateTime startsAt, @Nullable Boolean answer) {
+        this("request_for_walk", locationDto, startsAt, answer);
     }
 }

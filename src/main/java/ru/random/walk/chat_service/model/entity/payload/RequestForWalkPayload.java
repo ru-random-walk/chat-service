@@ -3,16 +3,23 @@ package ru.random.walk.chat_service.model.entity.payload;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class RequestForWalkPayload extends MessagePayload {
-    private final LocationPayload location;
-    private final LocalDateTime startsAt;
-    private final Boolean answer;
+    private LocationPayload location;
+    private LocalDateTime startsAt;
+    @Nullable
+    private Boolean answer;
 
-    public RequestForWalkPayload(String type, LocationPayload location, LocalDateTime startsAt, Boolean answer) {
+    @SuppressWarnings("unused")
+    public RequestForWalkPayload(){
+        super("request_for_walk");
+    }
+
+    protected RequestForWalkPayload(String type, LocationPayload location, LocalDateTime startsAt, @Nullable Boolean answer) {
         super(type);
         this.location = location;
         this.startsAt = startsAt;
@@ -21,6 +28,10 @@ public class RequestForWalkPayload extends MessagePayload {
 
     @SuppressWarnings("unused")
     public RequestForWalkPayload(LocationPayload location, LocalDateTime startsAt, Boolean answer) {
-        this("requestForWalk", location, startsAt, answer);
+        this("request_for_walk", location, startsAt, answer);
+    }
+
+    public RequestForWalkPayload(LocationPayload location, LocalDateTime startsAt) {
+        this("request_for_walk", location, startsAt, null);
     }
 }

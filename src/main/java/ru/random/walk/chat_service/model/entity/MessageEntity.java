@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import ru.random.walk.chat_service.converter.MessagePayloadConverter;
@@ -50,6 +51,7 @@ public class MessageEntity {
     private boolean markedAsRead;
 
     @Column(nullable = false)
+    @CreationTimestamp
     private LocalDateTime sentAt;
 
     @Override

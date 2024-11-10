@@ -8,9 +8,13 @@ public class LocationDto extends PayloadDto {
     private final double longitude;
     private final double latitude;
 
-    public LocationDto(String type, double longitude, double latitude) {
+    protected LocationDto(String type, double longitude, double latitude) {
         super(type);
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+
+    public LocationDto(double longitude, double latitude) {
+        this("location", longitude, latitude);
     }
 }

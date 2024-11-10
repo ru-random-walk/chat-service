@@ -10,7 +10,6 @@ import ru.random.walk.chat_service.model.domain.MessageFilter;
 import ru.random.walk.chat_service.model.dto.response.MessageDto;
 import ru.random.walk.chat_service.repository.MessageRepository;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -22,15 +21,7 @@ public class MessageService {
 
     public Page<MessageDto> getMessagePageByChatIdAndFilter(Pageable pageable, UUID chatId, MessageFilter filter) {
         log.info("getMessagePageByChatIdAndFilter: {} {}", chatId, filter);
-        var messageFilter = getMessageFilter(filter);
-        return messageRepository.findByChatId(chatId, messageFilter, filter.from(), filter.to(), pageable)
+        return messageRepository.findByChatId(chatId, filter.message(), filter.from(), filter.to(), pageable)
                 .map(messageMapper::toDto);
-    }
-
-    private static String getMessageFilter(MessageFilter filter) {
-        if (Objects.isNull(filter.message()) || filter.message().isEmpty()) {
-            return "%";
-        }
-        return "%" + filter.message() + "%";
     }
 }

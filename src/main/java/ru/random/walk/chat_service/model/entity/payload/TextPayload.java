@@ -13,7 +13,7 @@ public class TextPayload extends MessagePayload {
         super("text");
     }
 
-    public TextPayload(String text, String type) {
+    protected TextPayload(String text, String type) {
         super(type);
         this.text = text;
     }

@@ -13,7 +13,7 @@ import lombok.Setter;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = LocationPayload.class, name = "location"),
-        @JsonSubTypes.Type(value = RequestForWalkPayload.class, name = "requestForWalk"),
+        @JsonSubTypes.Type(value = RequestForWalkPayload.class, name = "request_for_walk"),
         @JsonSubTypes.Type(value = TextPayload.class, name = "text")
 })
 @AllArgsConstructor
