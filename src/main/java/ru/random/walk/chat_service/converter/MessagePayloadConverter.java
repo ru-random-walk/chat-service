@@ -6,7 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import lombok.extern.slf4j.Slf4j;
-import ru.random.walk.chat_service.model.entity.payload.MessagePayload;
+import ru.random.walk.chat_service.model.domain.payload.MessagePayload;
 
 @Converter
 @Slf4j

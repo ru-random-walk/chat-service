@@ -1,4 +1,4 @@
-package ru.random.walk.chat_service.model.entity.payload;
+package ru.random.walk.chat_service.model.domain.payload;
 
 import lombok.Getter;
 import lombok.Setter;

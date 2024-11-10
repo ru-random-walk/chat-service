@@ -18,7 +18,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import ru.random.walk.chat_service.converter.MessagePayloadConverter;
-import ru.random.walk.chat_service.model.entity.payload.MessagePayload;
+import ru.random.walk.chat_service.model.domain.payload.MessagePayload;
 import ru.random.walk.chat_service.model.entity.type.MessageType;
 
 import java.time.LocalDateTime;

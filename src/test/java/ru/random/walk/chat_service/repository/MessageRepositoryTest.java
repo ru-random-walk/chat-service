@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
 import ru.random.walk.chat_service.AbstractPostgresContainerTest;
+import ru.random.walk.chat_service.model.domain.payload.LocationPayload;
+import ru.random.walk.chat_service.model.domain.payload.MessagePayload;
+import ru.random.walk.chat_service.model.domain.payload.RequestForWalkPayload;
+import ru.random.walk.chat_service.model.domain.payload.TextPayload;
 import ru.random.walk.chat_service.model.entity.ChatEntity;
 import ru.random.walk.chat_service.model.entity.MessageEntity;
-import ru.random.walk.chat_service.model.entity.payload.LocationPayload;
-import ru.random.walk.chat_service.model.entity.payload.MessagePayload;
-import ru.random.walk.chat_service.model.entity.payload.RequestForWalkPayload;
-import ru.random.walk.chat_service.model.entity.payload.TextPayload;
 import ru.random.walk.chat_service.model.entity.type.ChatType;
 import ru.random.walk.chat_service.model.entity.type.MessageType;
 

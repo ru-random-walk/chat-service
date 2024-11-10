@@ -1,4 +1,4 @@
-package ru.random.walk.chat_service.model.entity.payload;
+package ru.random.walk.chat_service.model.domain.payload;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
