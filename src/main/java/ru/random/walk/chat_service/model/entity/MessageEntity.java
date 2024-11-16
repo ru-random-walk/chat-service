@@ -1,9 +1,8 @@
 package ru.random.walk.chat_service.model.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,7 +12,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.random.walk.chat_service.model.entity.type.MessageType;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+import ru.random.walk.chat_service.converter.MessagePayloadConverter;
+import ru.random.walk.chat_service.model.domain.payload.MessagePayload;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -24,29 +27,23 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-@Table(name = "chat_members", schema = "chat")
+@Table(name = "message", schema = "chat")
 public class MessageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private MessageType type;
+    @Convert(converter = MessagePayloadConverter.class)
+    @JdbcTypeCode(SqlTypes.JSON)
+    private MessagePayload payload;
+
+    @Column(name = "chat_id")
+    private UUID chatId;
 
     @Column(nullable = false)
     private boolean markedAsRead;
 
     @Column(nullable = false)
+    @CreationTimestamp
     private LocalDateTime sentAt;
-
-    @Override
-    public String toString() {
-        return "Message{" +
-                "sentAt=" + sentAt +
-                ", markedAsRead=" + markedAsRead +
-                ", type=" + type +
-                ", id=" + id +
-                '}';
-    }
 }

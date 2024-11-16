@@ -1,4 +1,9 @@
 spring:
+  jpa:
+    show-sql: ${LOGGING_SHOW_JPA_QUERIES:true}
+    properties:
+      hibernate:
+        format_sql: ${LOGGING_SHOW_JPA_QUERIES:true}
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/random_walk_postgres}
@@ -24,5 +29,5 @@ server:
   port: 8080
 logging:
   level:
-    ru.random.walk.chat_service:
-      ${GENERAL_LOGGING_LEVEL:DEBUG}
+    ru.random.walk.chat_service: ${GENERAL_LOGGING_LEVEL:DEBUG}
+    org.hibernate.orm.jdbc.bind: ${LOGGING_SHOW_BINDING_JPA_VALUES_LEVEL:TRACE}

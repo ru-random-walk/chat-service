@@ -11,17 +11,17 @@ $$
     end
 $$;
 
--- создание типа 'message_type', если он не существует
-do
+-- Автоматический каст строки в тип chat_type
+DO
 $$
-    begin
-        perform 1
-        from pg_type
-        where typname = 'message_type';
-        if not found then
-            create type chat.message_type as enum ('TEXT', 'REQUEST_FOR_WALK');
-        end if;
-    end
+    BEGIN
+        IF NOT EXISTS (SELECT 1
+                       FROM pg_cast
+                       WHERE castsource = 'character varying'::regtype
+                         AND casttarget = 'chat.chat_type'::regtype) THEN
+            CREATE CAST (character varying AS chat.chat_type) WITH INOUT AS IMPLICIT;
+        END IF;
+    END
 $$;
 
 -- создание таблицы 'chat', если она не существует
@@ -43,11 +43,10 @@ create table if not exists chat.chat_members
 -- создание таблицы 'message', если она не существует
 create table if not exists chat.message
 (
-    id             uuid    default gen_random_uuid() primary key,
-    payload        jsonb                 not null,
-    type           chat.message_type     not null,
-    chat_id        uuid                  not null,
-    marked_as_read boolean default false not null,
-    sent_at        timestamp             not null,
+    id             uuid      default gen_random_uuid() primary key,
+    payload        jsonb                   not null,
+    chat_id        uuid                    not null,
+    marked_as_read boolean   default false,
+    sent_at        timestamp default now(),
     foreign key (chat_id) references chat.chat (id)
 );

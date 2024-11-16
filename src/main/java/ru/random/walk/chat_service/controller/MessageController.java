@@ -3,6 +3,7 @@ package ru.random.walk.chat_service.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.random.walk.chat_service.controller.format.GlobalDateTimeFormat;
 import ru.random.walk.chat_service.controller.validation.PageableConstraint;
+import ru.random.walk.chat_service.mapper.MessageMapper;
 import ru.random.walk.chat_service.model.dto.response.MessageDto;
+import ru.random.walk.chat_service.service.Authenticator;
+import ru.random.walk.chat_service.service.MessageService;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -23,7 +27,12 @@ import java.util.UUID;
 @Tag(name = "REST Message Controller")
 @RestController
 @RequestMapping("/message")
+@AllArgsConstructor
 public class MessageController {
+    private final MessageService messageService;
+    private final Authenticator authenticator;
+    private final MessageMapper messageMapper;
+
     @Operation(summary = "Message List")
     @GetMapping("/list")
     public Page<MessageDto> getHistory(
@@ -44,6 +53,8 @@ public class MessageController {
                         with to filter [{}]
                         """,
                 principal, principal.getName(), chatId, pageable, message, from, to);
-        return null;
+        authenticator.authByChatId(principal, chatId);
+        var filter = messageMapper.toMessageFilter(message, from, to);
+        return messageService.getMessagePageByChatIdAndFilter(pageable, chatId, filter);
     }
 }
