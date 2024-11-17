@@ -41,7 +41,13 @@ public class MessageEntity {
     private UUID chatId;
 
     @Column(nullable = false)
-    private boolean markedAsRead;
+    private UUID sender;
+
+    @Column(nullable = false)
+    private UUID recipient;
+
+    @Column(nullable = false)
+    private Boolean markedAsRead;
 
     @Column(nullable = false)
     @CreationTimestamp

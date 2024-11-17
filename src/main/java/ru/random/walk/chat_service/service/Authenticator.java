@@ -22,7 +22,12 @@ public class Authenticator {
 
     public void authByChatId(Principal principal, UUID chatId) {
         var member = chatMemberRepository.findById_ChatId(chatId)
-                .orElseThrow(AuthenticationException::new);
+                .orElseThrow(() -> new AuthenticationException("Chat with id: '%s' not found".formatted(chatId)));
         auth(principal, member.getId().getUserId());
+    }
+
+    public void authSender(Principal principal, UUID sender, UUID chatId) {
+        auth(principal, sender);
+        authByChatId(principal, chatId);
     }
 }

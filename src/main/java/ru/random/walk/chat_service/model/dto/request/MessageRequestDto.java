@@ -12,6 +12,8 @@ import java.util.UUID;
 public record MessageRequestDto(
         MessagePayload payload,
         UUID chatId,
+        UUID sender,
+        UUID recipient,
         @Schema(example = "18:00 22-09-2024")
         @DateTimeFormat(pattern = "HH:mm dd-MM-yyyy")
         LocalDateTime createdAt
