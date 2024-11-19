@@ -44,8 +44,10 @@ create table if not exists chat.chat_members
 create table if not exists chat.message
 (
     id             uuid      default gen_random_uuid() primary key,
-    payload        jsonb                   not null,
-    chat_id        uuid                    not null,
+    payload        jsonb not null,
+    chat_id        uuid  not null,
+    sender         uuid  not null,
+    recipient      uuid  not null,
     marked_as_read boolean   default false,
     sent_at        timestamp default now(),
     foreign key (chat_id) references chat.chat (id)
