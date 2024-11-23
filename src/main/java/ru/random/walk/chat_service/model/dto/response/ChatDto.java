@@ -1,11 +1,11 @@
-package ru.random.walk.chat_service.dto.response;
+package ru.random.walk.chat_service.model.dto.response;
 
 import lombok.Builder;
 
 import java.util.UUID;
 
 @Builder
-public record Chat(
+public record ChatDto(
         UUID id
 ) {
 }

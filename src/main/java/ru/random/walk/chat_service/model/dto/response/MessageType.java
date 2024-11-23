@@ -1,6 +1,6 @@
-package ru.random.walk.chat_service.dto.response.message;
+package ru.random.walk.chat_service.model.dto.response;
 
-public enum Type {
+public enum MessageType {
     TEXT,
     REQUEST_FOR_WALK,
     REPLY_FOR_REQUEST_FOR_WALK,
