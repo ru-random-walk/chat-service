@@ -15,6 +15,14 @@ java {
 }
 
 repositories {
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/ru-random-walk/event-exchange-contract")
+        credentials {
+            username = project.findProperty("user") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("token") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
     mavenCentral()
 }
 
@@ -42,6 +50,7 @@ dependencies {
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.mapstruct:mapstruct:1.6.2'
+    implementation 'ru.random.walk:event-exchange-contract:1.0.1'
 }
 
 tasks.named('test') {
