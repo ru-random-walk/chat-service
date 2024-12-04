@@ -27,7 +27,7 @@ public class SendToKafka {
         var list = IntStream.range(0, 1000)
                 .mapToObj(ignored -> kafkaTemplate.send(EventTopic.CREATE_CHAT, getRandomMessage()))
                 .toList();
-        CompletableFuture.allOf(list.toArray(new CompletableFuture[0]));
+        CompletableFuture.allOf(list.toArray(new CompletableFuture[0])).join();
     }
 
     private static @NotNull CreatePrivateChatEvent getRandomMessage() {
