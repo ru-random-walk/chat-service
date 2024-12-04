@@ -42,6 +42,8 @@ class MessageRepositoryTest extends AbstractPostgresContainerTest {
                 MessageEntity.builder()
                         .chatId(chat.getId())
                         .payload(new TextPayload("Hi!"))
+                        .sender(UUID.randomUUID())
+                        .recipient(UUID.randomUUID())
                         .build()
         );
         assertNotNull(createdMessage.getSentAt());
@@ -76,6 +78,8 @@ class MessageRepositoryTest extends AbstractPostgresContainerTest {
             var createdMessage = messageRepository.save(
                     MessageEntity.builder()
                             .chatId(chat.getId())
+                            .sender(UUID.randomUUID())
+                            .recipient(UUID.randomUUID())
                             .payload(payload.messagePayload)
                             .build()
             );
