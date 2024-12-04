@@ -1,4 +1,11 @@
 spring:
+  kafka:
+    consumer:
+      bootstrap-servers: ${KAFKA_URL:localhost:9092}
+      group-id: "chat-service"
+      max-poll-records: 10
+      auto-offset-reset: latest
+      enable-auto-commit: true
   jpa:
     show-sql: ${LOGGING_SHOW_JPA_QUERIES:true}
     properties:
@@ -26,7 +33,7 @@ broker:
   login: ${ACTIVEMQ_ARTEMIS_LOGIN:admin}
   password: ${ACTIVEMQ_ARTEMIS_PASSWORD:admin}
 server:
-  port: 8080
+  port: 8082
 logging:
   level:
     ru.random.walk.chat_service: ${GENERAL_LOGGING_LEVEL:DEBUG}
