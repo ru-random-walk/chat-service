@@ -30,6 +30,7 @@ public class ChatMemberEntity {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
+    @Builder
     public static class ChatMemberId implements Serializable {
         @Column(name = "chat_id", nullable = false)
         private UUID chatId;

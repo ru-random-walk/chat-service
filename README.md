@@ -26,7 +26,7 @@
 
 ![image.png](doc/img/image.png)
 
-**Описание проблемы:** что лучше юзать ActiveMQ, ActiveMQ-artemis, RabbitMQ или Kafka для event-source'инга и распределенного чата?
+**Описание проблемы:** что лучше юзать ActiveMQ, ActiveMQ-artemis, RabbitMQ или Kafka для распределенного websocket чата?
 
 **Решение:** Использовать ActiveMQ-artemis - так как нам low latency нужна, а не high throghput, а для этого подходят ActiveMQ-artemis, ActiveMQ и RabbitMQ, но т.к. ActiveMQ-artemis из коробки по умолчанию работает с вебсокетами, то выбор падает именно на ActiveMQ-artemis.
 
