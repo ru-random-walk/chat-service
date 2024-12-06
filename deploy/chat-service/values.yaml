@@ -27,7 +27,7 @@ env:
   - name: LOGGING_SHOW_BINDING_JPA_VALUES_LEVEL
     value: "INFO"
   - name: KAFKA_URL
-    value: "crs-kafka-0.kafka-cluster.kafka.svc.cluster.local:9092"
+    value: "kafka-cluster.kafka.svc.cluster.local:9092"
 
 secrets:
   - name: ACTIVEMQ_ARTEMIS_LOGIN
