@@ -14,4 +14,6 @@ public interface ChatMemberRepository extends PagingAndSortingRepository<ChatMem
     Page<ChatMemberEntity> findAllById_UserId(UUID userId, Pageable pageable);
 
     Optional<ChatMemberEntity> findById_ChatId(UUID chatId);
+
+    ChatMemberEntity save(ChatMemberEntity chatMember1);
 }

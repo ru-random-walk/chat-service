@@ -15,6 +15,14 @@ java {
 }
 
 repositories {
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/ru-random-walk/event-exchange-contract")
+        credentials {
+            username = project.findProperty("user") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("token") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
     mavenCentral()
 }
 
@@ -36,12 +44,14 @@ dependencies {
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'io.projectreactor.netty:reactor-netty:1.1.22'
+    implementation 'io.projectreactor.netty:reactor-netty:1.2.0'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.mapstruct:mapstruct:1.6.2'
+    implementation 'ru.random.walk:event-exchange-contract:1.0.1'
+    implementation 'org.springframework.kafka:spring-kafka'
 }
 
 tasks.named('test') {
