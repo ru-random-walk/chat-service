@@ -9,6 +9,9 @@
 <h1>WebSocket Chat</h1>
 <div id="messages"></div>
 <label for="messageInput"></label><input type="text" id="messageInput" placeholder="Type your message here...">
+<label for="senderIdInput"></label><input type="text" id="senderIdInput" placeholder="Type your sender id here...">
+<label for="recipientIdInput"></label><input type="text" id="recipientIdInput"
+                                             placeholder="Type your recipient id here...">
 <button onclick="sendMessage()">Send</button>
 
 <script>
@@ -33,12 +36,16 @@
     function sendMessage() {
         var chatId = '0f04e4cc-66fc-418f-80f0-d91c5b011021';
         var content = document.getElementById('messageInput').value;
+        var senderId = document.getElementById('senderIdInput').value;
+        var recipientId = document.getElementById('recipientIdInput').value;
         var messageRequest = {
             chatId: chatId,
+            sender: senderId,
+            recipient: recipientId,
             content: content,
             payload: {
                 type: "text",
-                text: "Message text!!!"
+                text: content
             }
         };
 

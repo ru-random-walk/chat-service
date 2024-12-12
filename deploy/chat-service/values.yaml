@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   pullPolicy: Always
 
-imagePullSecrets: []
+imagePullSecrets: [ ]
 nameOverride: ""
 fullnameOverride: ""
 
@@ -15,7 +15,19 @@ env:
   - name: ACTIVEMQ_ARTEMIS_HOST
     value: "activemq-artemis.activemq-artemis.svc.cluster.local"
   - name: AUTH_SERVICE_URL
-    value: "auth-service.auth-service.svc.cluster.local:8080"
+    value: "http://random-walk.ru/auth"
+  - name: GENERAL_LOGGING_LEVEL
+    value: "INFO"
+  - name: POSTGRES_URL
+    value: "jdbc:postgresql://postgres-postgresql.default.svc.cluster.local:5432/random_walk_postgres"
+  - name: FLYWAY_MIGRATION_LOCATIONS
+    value: "classpath:db/migration"
+  - name: LOGGING_SHOW_JPA_QUERIES
+    value: "false"
+  - name: LOGGING_SHOW_BINDING_JPA_VALUES_LEVEL
+    value: "INFO"
+  - name: KAFKA_URL
+    value: "kafka-cluster.kafka.svc.cluster.local:9092"
 
 secrets:
   - name: ACTIVEMQ_ARTEMIS_LOGIN
@@ -26,24 +38,32 @@ secrets:
     secret_key: ARTEMIS_PASSWORD
     secret_name: activemq-artemis-secret
 
+  - name: POSTGRES_USERNAME
+    secret_key: POSTGRES_USERNAME
+    secret_name: chat-postgres-secret
+
+  - name: POSTGRES_PASSWORD
+    secret_key: POSTGRES_PASSWORD
+    secret_name: chat-postgres-secret
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
   # Automatically mount a ServiceAccount's API credentials?
   automount: true
   # Annotations to add to the service account
-  annotations: {}
+  annotations: { }
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-podAnnotations: {}
-podLabels: {}
+podAnnotations: { }
+podLabels: { }
 
-podSecurityContext: {}
+podSecurityContext: { }
 # fsGroup: 2000
 
-securityContext: {}
+securityContext: { }
 # capabilities:
 #   drop:
 #   - ALL
@@ -93,20 +113,20 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 # Additional volumes on the output Deployment definition.
-volumes: []
+volumes: [ ]
 # - name: foo
 #   secret:
 #     secretName: mysecret
 #     optional: false
 
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
+volumeMounts: [ ]
 # - name: foo
 #   mountPath: "/etc/foo"
 #   readOnly: true
 
-nodeSelector: {}
+nodeSelector: { }
 
-tolerations: []
+tolerations: [ ]
 
-affinity: {}
+affinity: { }
