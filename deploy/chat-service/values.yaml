@@ -15,7 +15,7 @@ env:
   - name: ACTIVEMQ_ARTEMIS_HOST
     value: "activemq-artemis.activemq-artemis.svc.cluster.local"
   - name: AUTH_SERVICE_URL
-    value: "auth-service.auth-service.svc.cluster.local:8080"
+    value: "http://random-walk.ru/auth"
   - name: GENERAL_LOGGING_LEVEL
     value: "INFO"
   - name: POSTGRES_URL
@@ -26,6 +26,8 @@ env:
     value: "false"
   - name: LOGGING_SHOW_BINDING_JPA_VALUES_LEVEL
     value: "INFO"
+  - name: KAFKA_URL
+    value: "kafka-cluster.kafka.svc.cluster.local:9092"
 
 secrets:
   - name: ACTIVEMQ_ARTEMIS_LOGIN

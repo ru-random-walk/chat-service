@@ -29,6 +29,9 @@ jobs:
           chmod +x gradlew
           ./gradlew clean
           ./gradlew build
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
