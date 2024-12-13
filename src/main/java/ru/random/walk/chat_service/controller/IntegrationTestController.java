@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import ru.random.walk.dto.CreatePrivateChatEvent;
 @Tag(name = "REST Integration Test Controller")
 @Slf4j
 @RequiredArgsConstructor
+@PreAuthorize(value = "hasRole('TESTER')")
 public class IntegrationTestController {
     private final ChatService chatService;
 
