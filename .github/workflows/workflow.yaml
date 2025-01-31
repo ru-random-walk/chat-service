@@ -106,11 +106,18 @@ jobs:
           ssh -fNL 6443:${INTERNAL_IP}:6443 ${SERVER_USERNAME}@${EXTERNAL_IP} -p ${EXTERNAL_PORT}
           echo "127.0.0.1 kubernetes.default.svc.cluster.local" | sudo tee -a /etc/hosts
 
+      - name: Create namespace if absent
+        run:
+          (kubectl create namespace $APP_NAME && echo "Namespace was created successfully!") || \
+          echo "Namespace are already created!"
+
       - name: Deploy
         run: |
           helm upgrade $APP_NAME ./deploy/$APP_NAME/ \
             --set image.tag=$DOCKER_METADATA_OUTPUT_TAGS \
-            --set image.repository=$DOCKER_REPO_USERNAME/$IMAGE_NAME || \
+            --set image.repository=$DOCKER_REPO_USERNAME/$IMAGE_NAME \
+            --namespace $APP_NAME || \
           helm install $APP_NAME ./deploy/$APP_NAME/ \
             --set image.tag=$DOCKER_METADATA_OUTPUT_TAGS \
             --set image.repository=$DOCKER_REPO_USERNAME/$IMAGE_NAME \
+            --namespace $APP_NAME \
