@@ -110,4 +110,7 @@ jobs:
         run: |
           helm upgrade $APP_NAME ./deploy/$APP_NAME/ \
             --set image.tag=$DOCKER_METADATA_OUTPUT_TAGS \
+            --set image.repository=$DOCKER_REPO_USERNAME/$IMAGE_NAME || \
+          helm install $APP_NAME ./deploy/$APP_NAME/ \
+            --set image.tag=$DOCKER_METADATA_OUTPUT_TAGS \
             --set image.repository=$DOCKER_REPO_USERNAME/$IMAGE_NAME \
