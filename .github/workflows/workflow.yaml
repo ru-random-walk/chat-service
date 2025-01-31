@@ -108,8 +108,7 @@ jobs:
 
       - name: Create namespace if absent
         run:
-          (kubectl create namespace $APP_NAME && echo "Namespace was created successfully!") || \
-          echo "Namespace are already created!"
+          kubectl create namespace $APP_NAME && echo "Namespace was created successfully!" || echo "Namespace is already created!"
 
       - name: Deploy
         run: |
