@@ -116,8 +116,6 @@ jobs:
           helm upgrade $APP_NAME ./deploy/$APP_NAME/ \
             --set image.tag=$DOCKER_METADATA_OUTPUT_TAGS \
             --set image.repository=$DOCKER_REPO_USERNAME/$IMAGE_NAME \
-            --namespace $APP_NAME || \
-          helm install $APP_NAME ./deploy/$APP_NAME/ \
-            --set image.tag=$DOCKER_METADATA_OUTPUT_TAGS \
-            --set image.repository=$DOCKER_REPO_USERNAME/$IMAGE_NAME \
             --namespace $APP_NAME \
+            --install \
+            --wait
