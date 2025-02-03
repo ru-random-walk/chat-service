@@ -39,7 +39,7 @@ secrets:
     secret_name: activemq-artemis-secret
 
   - name: POSTGRES_USERNAME
-    secret_key: POSTGRES_USER17
+    secret_key: POSTGRES_USER
     secret_name: postgresql-secret
 
   - name: POSTGRES_PASSWORD
