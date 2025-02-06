@@ -24,7 +24,7 @@ public class Authenticator {
         var login = UUID.fromString(principal.getName());
         chatMemberRepository.findById_UserId(login).stream()
                 .map(chatMemberEntity -> chatMemberEntity.getId().getChatId())
-                .filter(id->id.equals(chatId))
+                .filter(id -> id.equals(chatId))
                 .findFirst()
                 .orElseThrow(() -> new AuthenticationException("Chat with id: '%s' not found".formatted(chatId)));
     }
