@@ -1,9 +1,9 @@
 package ru.random.walk.chat_service.model.entity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,12 +21,17 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@IdClass(ChatMemberEntity.ChatMemberId.class)
 @Table(name = "chat_members", schema = "chat")
 public class ChatMemberEntity {
-    @EmbeddedId
-    private ChatMemberId id;
+    @Id
+    @Column(name = "chat_id", nullable = false)
+    private UUID chatId;
 
-    @Embeddable
+    @Id
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -41,8 +46,9 @@ public class ChatMemberEntity {
 
     @Override
     public String toString() {
-        return "ChatMember{" +
-                "id=" + id +
+        return "ChatMemberEntity{" +
+                "chatId=" + chatId +
+                ", userId=" + userId +
                 '}';
     }
 }

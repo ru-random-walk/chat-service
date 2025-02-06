@@ -21,9 +21,9 @@ public class Authenticator {
     }
 
     public void authByChatId(Principal principal, UUID chatId) {
-        var member = chatMemberRepository.findById_ChatId(chatId)
+        var login = UUID.fromString(principal.getName());
+        chatMemberRepository.findAllByChatIdAndUserId(chatId, login)
                 .orElseThrow(() -> new AuthenticationException("Chat with id: '%s' not found".formatted(chatId)));
-        auth(principal, member.getId().getUserId());
     }
 
     public void authSender(Principal principal, UUID sender, UUID chatId) {
