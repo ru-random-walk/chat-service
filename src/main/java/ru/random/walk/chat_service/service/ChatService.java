@@ -24,7 +24,7 @@ public class ChatService {
     private final ChatMapper chatMapper;
 
     public Page<ChatDto> getChatPageByMemberUsername(Pageable pageable, UUID memberUsername) {
-        return chatMemberRepository.findAllById_UserId(memberUsername, pageable)
+        return chatMemberRepository.findAllByUserId(memberUsername, pageable)
                 .map(chatMapper::chatMemberToChatDto);
     }
 
@@ -33,20 +33,12 @@ public class ChatService {
         var chat = ChatEntity.builder().type(ChatType.PRIVATE).build();
         var savedChat = chatRepository.save(chat);
         var chatMember1 = ChatMemberEntity.builder()
-                .id(
-                        ChatMemberEntity.ChatMemberId.builder()
-                                .chatId(savedChat.getId())
-                                .userId(event.chatMember1())
-                                .build()
-                )
+                .chatId(savedChat.getId())
+                .userId(event.chatMember1())
                 .build();
         var chatMember2 = ChatMemberEntity.builder()
-                .id(
-                        ChatMemberEntity.ChatMemberId.builder()
-                                .chatId(savedChat.getId())
-                                .userId(event.chatMember2())
-                                .build()
-                )
+                .chatId(savedChat.getId())
+                .userId(event.chatMember2())
                 .build();
         chatMemberRepository.save(chatMember1);
         chatMemberRepository.save(chatMember2);
