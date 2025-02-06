@@ -7,7 +7,6 @@ import ru.random.walk.chat_service.repository.ChatMemberRepository;
 
 import java.security.Principal;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 @Service
 @AllArgsConstructor
@@ -23,10 +22,7 @@ public class Authenticator {
 
     public void authByChatId(Principal principal, UUID chatId) {
         var login = UUID.fromString(principal.getName());
-        chatMemberRepository.findById_UserId(login).stream()
-                .map(chatMemberEntity -> chatMemberEntity.getId().getChatId())
-                .filter(Predicate.isEqual(chatId))
-                .findFirst()
+        chatMemberRepository.findById_ChatIdAndId_UserId(chatId, login)
                 .orElseThrow(() -> new AuthenticationException("Chat with id: '%s' not found".formatted(chatId)));
     }
 
