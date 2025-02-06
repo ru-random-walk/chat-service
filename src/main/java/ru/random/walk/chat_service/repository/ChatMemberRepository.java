@@ -11,9 +11,9 @@ import java.util.UUID;
 
 @Repository
 public interface ChatMemberRepository extends PagingAndSortingRepository<ChatMemberEntity, ChatMemberEntity.ChatMemberId> {
-    Page<ChatMemberEntity> findAllById_UserId(UUID userId, Pageable pageable);
+    Page<ChatMemberEntity> findAllByUserId(UUID userId, Pageable pageable);
 
-    Optional<ChatMemberEntity> findById_ChatId(UUID chatId);
+    Optional<ChatMemberEntity> findAllByChatIdAndUserId(UUID chatId, UUID userId);
 
-    ChatMemberEntity save(ChatMemberEntity chatMember1);
+    ChatMemberEntity save(ChatMemberEntity chatMember);
 }
