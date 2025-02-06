@@ -6,7 +6,6 @@ import ru.random.walk.chat_service.model.exception.AuthenticationException;
 import ru.random.walk.chat_service.repository.ChatMemberRepository;
 
 import java.security.Principal;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -16,7 +15,8 @@ public class Authenticator {
     private final ChatMemberRepository chatMemberRepository;
 
     public void auth(Principal principal, UUID userId) {
-        if (authPredicate(principal).negate().test(userId)) {
+        var login = UUID.fromString(principal.getName());
+        if (!login.equals(userId)) {
             throw new AuthenticationException("MemberUsername mismatch with credentials!");
         }
     }
@@ -28,13 +28,6 @@ public class Authenticator {
                 .filter(Predicate.isEqual(chatId))
                 .findFirst()
                 .orElseThrow(() -> new AuthenticationException("Chat with id: '%s' not found".formatted(chatId)));
-    }
-
-    private Predicate<UUID> authPredicate(Principal principal) {
-        return id -> {
-            var login = UUID.fromString(principal.getName());
-            return login.equals(id);
-        };
     }
 
     public void authSender(Principal principal, UUID sender, UUID chatId) {
