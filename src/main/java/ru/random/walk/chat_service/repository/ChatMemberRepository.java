@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface ChatMemberRepository extends PagingAndSortingRepository<ChatMemberEntity, ChatMemberEntity.ChatMemberId> {
     Page<ChatMemberEntity> findAllById_UserId(UUID userId, Pageable pageable);
 
-    List<ChatMemberEntity> findById_ChatId(UUID chatId);
+    List<ChatMemberEntity> findById_UserId(UUID userId);
 
     ChatMemberEntity save(ChatMemberEntity chatMember1);
 }
