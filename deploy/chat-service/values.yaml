@@ -28,6 +28,10 @@ env:
     value: "INFO"
   - name: KAFKA_URL
     value: "kafka-cluster.kafka.svc.cluster.local:9092"
+  - name: LOGGING_CONFIG_FILE_PATH
+    value: "classpath:loki-with-console-logger.xml"
+  - name: LOKI_HOST
+    value: "http://loki.observability.svc.cluster.local:3100"
 
 secrets:
   - name: ACTIVEMQ_ARTEMIS_LOGIN
