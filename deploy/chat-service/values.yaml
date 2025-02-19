@@ -15,7 +15,7 @@ env:
   - name: ACTIVEMQ_ARTEMIS_HOST
     value: "activemq-artemis.activemq-artemis.svc.cluster.local"
   - name: AUTH_SERVICE_URL
-    value: "http://random-walk.ru/auth"
+    value: "https://random-walk.ru:44424/auth"
   - name: GENERAL_LOGGING_LEVEL
     value: "INFO"
   - name: POSTGRES_URL
