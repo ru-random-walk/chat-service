@@ -31,7 +31,7 @@ env:
   - name: LOGGING_CONFIG_FILE_PATH
     value: "classpath:loki-with-console-logger.xml"
   - name: LOKI_HOST
-    value: "http://loki.observability.svc.cluster.local:3100"
+    value: "http://lgtm-loki-gateway.observability.svc.cluster.local:3100"
 
 secrets:
   - name: ACTIVEMQ_ARTEMIS_LOGIN
