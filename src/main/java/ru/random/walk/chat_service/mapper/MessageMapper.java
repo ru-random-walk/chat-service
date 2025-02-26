@@ -1,6 +1,5 @@
 package ru.random.walk.chat_service.mapper;
 
-import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.random.walk.chat_service.model.domain.MessageFilter;
@@ -20,7 +19,8 @@ public interface MessageMapper {
     @Mapping(source = "chatId", target = "chatId")
     MessageDto toDto(MessageEntity entity);
 
-    @BeanMapping(ignoreByDefault = true)
     @Mapping(source = "dto.createdAt", target = "sentAt")
+    @Mapping(expression = "java(null)", target = "id")
+    @Mapping(expression = "java(false)", target = "markedAsRead")
     MessageEntity toEntity(MessageRequestDto dto);
 }
