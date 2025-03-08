@@ -10,4 +10,7 @@ public record ChatDto(
         UUID id,
         List<UUID> memberIds
 ) {
+    public ChatDto(UUID id, UUID[] memberIds) {
+        this(id, List.of(memberIds));
+    }
 }

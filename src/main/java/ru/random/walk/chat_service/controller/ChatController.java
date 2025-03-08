@@ -44,6 +44,6 @@ public class ChatController {
                         """,
                 principal, principal.getName(), pageable, memberUsername);
         authenticator.auth(principal, memberUsername);
-        return chatService.getChatPageByMemberUsername(pageable, memberUsername);
+        return chatService.getChatPageByMemberUsername(pageable, memberUsername).toList();
     }
 }

@@ -1,6 +1,7 @@
 package ru.random.walk.chat_service.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +13,6 @@ import ru.random.walk.chat_service.repository.ChatMemberRepository;
 import ru.random.walk.chat_service.repository.ChatRepository;
 import ru.random.walk.dto.CreatePrivateChatEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -23,19 +21,8 @@ public class ChatService {
     private final ChatMemberRepository chatMemberRepository;
     private final ChatRepository chatRepository;
 
-    public List<ChatDto> getChatPageByMemberUsername(Pageable pageable, UUID memberUsername) {
-        Map<UUID, List<UUID>> chatToMembers = chatMemberRepository.findAllChatToMembersByUserId(
-                memberUsername,
-                pageable.getPageNumber(),
-                pageable.getPageSize()
-        );
-        List<ChatDto> result = new ArrayList<>();
-        for (var entry : chatToMembers.entrySet()) {
-            UUID chatId = entry.getKey();
-            List<UUID> members = entry.getValue();
-            result.add(new ChatDto(chatId, members));
-        }
-        return result;
+    public Page<ChatDto> getChatPageByMemberUsername(Pageable pageable, UUID memberUsername) {
+        return chatMemberRepository.findAllChatToMembersByUserId(memberUsername, pageable);
     }
 
     @Transactional
