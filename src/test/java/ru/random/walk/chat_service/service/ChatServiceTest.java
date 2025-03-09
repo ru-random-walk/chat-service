@@ -36,9 +36,9 @@ class ChatServiceTest extends AbstractPostgresContainerTest {
                 .chatId(chat.getId())
                 .userId(UUID.randomUUID())
                 .build());
-        var chatPage = chatService.getChatPageByMemberUsername(PageRequest.of(0, 10), member.getUserId());
-        assertEquals(1, chatPage.getTotalElements());
-        assertEquals(chatPage.getContent().getFirst(), ChatDto.builder()
+        var chatList = chatService.getChatPageByMemberUsername(PageRequest.of(0, 10), member.getUserId());
+        assertEquals(1, chatList.size());
+        assertEquals(chatList.getFirst(), ChatDto.builder()
                 .id(chat.getId())
                 .memberIds(List.of(member.getUserId()))
                 .build());
