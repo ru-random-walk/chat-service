@@ -14,18 +14,19 @@ public class MessagePayloadConverterTest {
     @Test
     public void testSerialization() {
         RequestForWalkPayload requestForWalkPayload = new RequestForWalkPayload(
-                new LocationPayload(9.4, 2.3),
+                new LocationPayload(9.4, 2.3, "Moscow", "Park culture", null),
                 LocalDateTime.of(2024, 9, 22, 18, 0)
         );
         String json = converter.convertToDatabaseColumn(requestForWalkPayload);
         assertEquals("""
-                {"type":"request_for_walk","location":{"type":"location","longitude":9.4,"latitude":2.3},"startsAt":"18:00 22-09-2024","answer":null}""", json);
+                {"type":"request_for_walk","location":{"type":"location","longitude":9.4,"latitude":2.3,"city":"Moscow","street":"Park culture","building":null},"startsAt":"18:00 22-09-2024","answer":null}""", json);
     }
 
     @Test
     public void testDeserialization() {
         String json = """
-                {"type":"request_for_walk","location":{"type":"location","longitude":9.4,"latitude":2.3},"startsAt":"18:00 22-09-2024","answer":null}""";
+                {"type":"request_for_walk","location":{"type":"location","longitude":9.4,"latitude":2.3,"city":"Moscow","street":"Park culture","building":null},"startsAt":"18:00 22-09-2024","answer":null}
+                """;
         RequestForWalkPayload requestForWalkPayload = (RequestForWalkPayload) converter.convertToEntityAttribute(json);
         assertEquals(
                 LocalDateTime.of(2024, 9, 22, 18, 0),

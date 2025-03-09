@@ -67,7 +67,7 @@ class MessageRepositoryTest extends AbstractPostgresContainerTest {
                 new PayloadWithType(new TextPayload("Hi!!!!"), MessageType.TEXT),
                 new PayloadWithType(
                         new RequestForWalkPayload(
-                                new LocationPayload(23234.12, 14134.24),
+                                new LocationPayload(9.4, 2.3, "Moscow", "Park culture", null),
                                 LocalDateTime.now()
                         ),
                         MessageType.REQUEST_FOR_WALK
