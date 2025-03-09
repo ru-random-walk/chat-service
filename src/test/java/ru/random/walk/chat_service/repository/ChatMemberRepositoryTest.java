@@ -1,5 +1,6 @@
 package ru.random.walk.chat_service.repository;
 
+import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,10 +12,9 @@ import ru.random.walk.chat_service.model.entity.type.ChatType;
 import java.util.UUID;
 
 @SpringBootTest
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 class ChatMemberRepositoryTest extends AbstractPostgresContainerTest {
-    @Autowired
     private ChatMemberRepository chatMemberRepository;
-    @Autowired
     private ChatRepository chatRepository;
 
     @Test
