@@ -76,3 +76,6 @@ fabric.properties
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Intellij
 /build/generated/sources/annotationProcessor/java/main/
+
+# gradle.properties
+gradle.properties
