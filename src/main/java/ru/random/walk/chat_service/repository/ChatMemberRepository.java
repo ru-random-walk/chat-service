@@ -1,8 +1,8 @@
 package ru.random.walk.chat_service.repository;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import ru.random.walk.chat_service.model.entity.ChatMemberEntity;
 import ru.random.walk.chat_service.model.entity.ChatWithMembersEntity;
@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ChatMemberRepository extends PagingAndSortingRepository<ChatMemberEntity, ChatMemberEntity.ChatMemberId> {
+public interface ChatMemberRepository extends JpaRepository<ChatMemberEntity, ChatMemberEntity.ChatMemberId> {
     @Query(
             """
                     select new ru.random.walk.chat_service.model.entity.ChatWithMembersEntity(m.chatId, array_agg(m.userId) within group (order by m.userId))
@@ -28,6 +28,4 @@ public interface ChatMemberRepository extends PagingAndSortingRepository<ChatMem
     List<ChatWithMembersEntity> findAllChatWithMembersByUserId(UUID userId, Pageable pageable);
 
     Optional<ChatMemberEntity> findAllByChatIdAndUserId(UUID chatId, UUID userId);
-
-    ChatMemberEntity save(ChatMemberEntity chatMember);
 }
