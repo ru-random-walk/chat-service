@@ -20,10 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -51,7 +48,7 @@ class MessageRepositoryTest extends AbstractPostgresContainerTest {
         assertTrue(foundMessage.isPresent());
         var entity = foundMessage.get();
         var textPayload = assertInstanceOf(TextPayload.class, entity.getPayload());
-        assertEquals(textPayload.getText(), "Hi!");
+        assertEquals("Hi!", textPayload.getText());
     }
 
     @Test
