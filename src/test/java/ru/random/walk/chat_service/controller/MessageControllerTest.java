@@ -19,7 +19,7 @@ import ru.random.walk.chat_service.repository.MessageRepository;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -46,7 +46,6 @@ class MessageControllerTest extends AbstractPostgresContainerTest {
         messageRepository.saveAndFlush(message);
         var messageDto = messageMapper.toDto(message);
         var messageView = assertDoesNotThrow(() -> objectMapper.writeValueAsString(messageDto));
-        System.out.println("View: " + messageView);
         JSONAssert.assertEquals("""
                         {
                             "id":"%s",
