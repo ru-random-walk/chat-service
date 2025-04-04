@@ -2,8 +2,8 @@ package ru.random.walk.chat_service.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import ru.random.walk.chat_service.model.entity.MessageEntity;
 
@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public interface MessageRepository extends CrudRepository<MessageEntity, UUID> {
+public interface MessageRepository extends JpaRepository<MessageEntity, UUID> {
     @Query(
             value = """
                     select * from chat.message
