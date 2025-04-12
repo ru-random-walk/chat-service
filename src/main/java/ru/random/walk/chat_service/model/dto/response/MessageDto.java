@@ -16,7 +16,7 @@ public record MessageDto(
         UUID chatId,
         boolean markedAsRead,
         @Schema(example = "18:00 22-09-2024")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm dd-MM-yyyy")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm dd-MM-yyyy")
         @DateTimeFormat(pattern = "HH:mm dd-MM-yyyy")
         LocalDateTime createdAt,
         UUID sender
