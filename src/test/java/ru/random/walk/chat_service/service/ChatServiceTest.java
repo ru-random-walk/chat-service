@@ -12,20 +12,21 @@ import ru.random.walk.chat_service.model.entity.ChatMemberEntity;
 import ru.random.walk.chat_service.model.entity.type.ChatType;
 import ru.random.walk.chat_service.repository.ChatMemberRepository;
 import ru.random.walk.chat_service.repository.ChatRepository;
+import ru.random.walk.dto.CreatePrivateChatEvent;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 class ChatServiceTest extends AbstractPostgresContainerTest {
     private final ChatService chatService;
-    @Autowired
-    private ChatMemberRepository chatMemberRepository;
-    @Autowired
-    private ChatRepository chatRepository;
+    private final ChatMemberRepository chatMemberRepository;
+    private final ChatRepository chatRepository;
 
     @Test
     void getChatPageByMemberUsername() {
@@ -42,5 +43,17 @@ class ChatServiceTest extends AbstractPostgresContainerTest {
                 .id(chat.getId())
                 .memberIds(List.of(member.getUserId()))
                 .build());
+    }
+
+    @Test
+    void createPrivateChatTwiceFailed() {
+        var privateChatInfo = new CreatePrivateChatEvent(UUID.randomUUID(), UUID.randomUUID());
+        chatService.create(privateChatInfo);
+        assertThrows(RuntimeException.class, () -> chatService.create(privateChatInfo));
+        var chatIds = chatMemberRepository.findAllChatIdByUserIds(Set.of(
+                privateChatInfo.chatMember1(),
+                privateChatInfo.chatMember2()
+        ));
+        assertEquals(1, chatIds.size());
     }
 }

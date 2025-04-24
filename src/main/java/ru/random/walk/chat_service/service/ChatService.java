@@ -14,6 +14,7 @@ import ru.random.walk.chat_service.repository.ChatRepository;
 import ru.random.walk.dto.CreatePrivateChatEvent;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -30,6 +31,15 @@ public class ChatService {
 
     @Transactional
     public void create(CreatePrivateChatEvent event) {
+        var chatIds = chatMemberRepository.findAllChatIdByUserIds(Set.of(
+                event.chatMember1(),
+                event.chatMember2()
+        ));
+        if (!chatIds.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Chat with members: [%s, %s] already exist!".formatted(event.chatMember1(), event.chatMember2())
+            );
+        }
         var chat = ChatEntity.builder().type(ChatType.PRIVATE).build();
         var savedChat = chatRepository.save(chat);
         var chatMember1 = ChatMemberEntity.builder()
