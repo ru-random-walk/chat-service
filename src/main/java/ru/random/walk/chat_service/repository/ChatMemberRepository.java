@@ -9,6 +9,7 @@ import ru.random.walk.chat_service.model.entity.ChatWithMembersEntity;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Repository
@@ -26,6 +27,9 @@ public interface ChatMemberRepository extends JpaRepository<ChatMemberEntity, Ch
                     """
     )
     List<ChatWithMembersEntity> findAllChatWithMembersByUserId(UUID userId, Pageable pageable);
+
+    @Query("select m.chatId from ChatMemberEntity m where m.userId in :userIds")
+    Set<UUID> findAllChatIdByUserIds(Set<UUID> userIds);
 
     Optional<ChatMemberEntity> findAllByChatIdAndUserId(UUID chatId, UUID userId);
 }
