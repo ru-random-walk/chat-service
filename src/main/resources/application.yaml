@@ -39,3 +39,10 @@ logging:
   level:
     ru.random.walk.chat_service: ${GENERAL_LOGGING_LEVEL:DEBUG}
     org.hibernate.orm.jdbc.bind: ${LOGGING_SHOW_BINDING_JPA_VALUES_LEVEL:TRACE}
+inter:
+  matcher:
+    url: ${MATCHER_URL:localhost:8082}
+  auth:
+    url: ${AUTH_SERVICE_URL:http://localhost:8081}
+    login: ${INTER_CHAT_LOGIN:CLUB_TEST_CLIENT}
+    password: ${INTER_CHAT_PASSWORD:1234Club}

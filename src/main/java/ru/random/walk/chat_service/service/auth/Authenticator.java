@@ -1,4 +1,4 @@
-package ru.random.walk.chat_service.service;
+package ru.random.walk.chat_service.service.auth;
 
 import java.security.Principal;
 import java.util.UUID;

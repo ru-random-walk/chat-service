@@ -1,10 +1,10 @@
-package ru.random.walk.chat_service.service.impl;
+package ru.random.walk.chat_service.service.auth.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.random.walk.chat_service.model.exception.AuthenticationException;
 import ru.random.walk.chat_service.repository.ChatMemberRepository;
-import ru.random.walk.chat_service.service.Authenticator;
+import ru.random.walk.chat_service.service.auth.Authenticator;
 
 import java.security.Principal;
 import java.util.UUID;

@@ -28,6 +28,8 @@ env:
     value: "INFO"
   - name: KAFKA_URL
     value: "kafka-cluster.kafka.svc.cluster.local:9092"
+  - name: MATCHER_URL
+    value: "matcher-service.matcher-service.svc.cluster.local:8080"
 
 secrets:
   - name: ACTIVEMQ_ARTEMIS_LOGIN
@@ -45,6 +47,14 @@ secrets:
   - name: POSTGRES_PASSWORD
     secret_key: POSTGRES_PASSWORD
     secret_name: postgresql-secret
+
+  - name: INTER_CHAT_LOGIN
+    secret_key: LOGIN
+    secret_name: inter-chat-secret
+
+  - name: INTER_CHAT_PASSWORD
+    secret_key: PASSWORD
+    secret_name: inter-chat-secret
 
 serviceAccount:
   # Specifies whether a service account should be created
