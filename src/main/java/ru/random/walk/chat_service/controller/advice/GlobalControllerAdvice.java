@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import ru.random.walk.chat_service.model.dto.ApiErrorDto;
+import ru.random.walk.chat_service.model.exception.AlreadyExistException;
 import ru.random.walk.chat_service.model.exception.AuthenticationException;
 
 import java.util.Arrays;
@@ -33,6 +34,13 @@ public class GlobalControllerAdvice {
                                 .reduce(String::concat)
                                 .orElse("Validation Error!")
                 ));
+    }
+
+    @ExceptionHandler(AlreadyExistException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ApiErrorDto> validationException(AlreadyExistException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiErrorDto.of(e.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
