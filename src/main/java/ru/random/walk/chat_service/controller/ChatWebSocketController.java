@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.random.walk.chat_service.mapper.MessageMapper;
@@ -17,6 +18,7 @@ import java.security.Principal;
 @Controller
 @Slf4j
 @AllArgsConstructor
+@PreAuthorize("hasAuthority('DEFAULT_USER')")
 public class ChatWebSocketController {
     private final SimpMessagingTemplate messagingTemplate;
     private final Authenticator authenticator;

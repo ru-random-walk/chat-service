@@ -18,7 +18,7 @@ services:
       - activemq_log:/var/log/activemq
   postgres:
     container_name: postgres
-    image: postgres:latest
+    image: bitnami/postgresql:16.4.0-debian-12-r9
     ports:
       - "5432:5432"
     environment:

@@ -3,6 +3,7 @@ package ru.random.walk.chat_service.controller.advice;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -17,9 +18,9 @@ import java.util.Objects;
 @RestControllerAdvice
 @Slf4j
 public class GlobalControllerAdvice {
-    @ExceptionHandler(AuthenticationException.class)
+    @ExceptionHandler({AuthenticationException.class, AuthorizationDeniedException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<ApiErrorDto> unauthorizedException(AuthenticationException e) {
+    public ResponseEntity<ApiErrorDto> unauthorizedException(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(ApiErrorDto.of(e.getMessage()));
     }
