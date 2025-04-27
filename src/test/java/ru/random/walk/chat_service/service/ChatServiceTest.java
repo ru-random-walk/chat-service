@@ -50,7 +50,7 @@ class ChatServiceTest extends AbstractPostgresContainerTest {
         var privateChatInfo = new CreatePrivateChatEvent(UUID.randomUUID(), UUID.randomUUID());
         chatService.create(privateChatInfo);
         assertThrows(RuntimeException.class, () -> chatService.create(privateChatInfo));
-        var chatIds = chatMemberRepository.findAllChatIdByUserIds(Set.of(
+        var chatIds = chatMemberRepository.findAllChatIdWithUserIdsAsMembersForEach(Set.of(
                 privateChatInfo.chatMember1(),
                 privateChatInfo.chatMember2()
         ));
