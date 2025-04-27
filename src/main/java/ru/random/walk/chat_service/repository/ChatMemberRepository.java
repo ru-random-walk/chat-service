@@ -28,8 +28,16 @@ public interface ChatMemberRepository extends JpaRepository<ChatMemberEntity, Ch
     )
     List<ChatWithMembersEntity> findAllChatWithMembersByUserId(UUID userId, Pageable pageable);
 
-    @Query("select m.chatId from ChatMemberEntity m where m.userId in :userIds")
-    Set<UUID> findAllChatIdByUserIds(Set<UUID> userIds);
+    @Query(
+            """
+                    select chatId
+                    from ChatMemberEntity m
+                    where userId in :userIds
+                    group by chatId
+                    having count(distinct userId) = :#{#userIds.size()}
+                    """
+    )
+    Set<UUID> findAllChatIdWithUserIdsAsMembersForEach(Set<UUID> userIds);
 
     Optional<ChatMemberEntity> findAllByChatIdAndUserId(UUID chatId, UUID userId);
 }
