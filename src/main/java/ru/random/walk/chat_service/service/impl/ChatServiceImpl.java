@@ -9,6 +9,7 @@ import ru.random.walk.chat_service.model.dto.response.ChatDto;
 import ru.random.walk.chat_service.model.entity.ChatEntity;
 import ru.random.walk.chat_service.model.entity.ChatMemberEntity;
 import ru.random.walk.chat_service.model.entity.type.ChatType;
+import ru.random.walk.chat_service.model.exception.AlreadyExistException;
 import ru.random.walk.chat_service.repository.ChatMemberRepository;
 import ru.random.walk.chat_service.repository.ChatRepository;
 import ru.random.walk.chat_service.service.ChatService;
@@ -34,12 +35,12 @@ public class ChatServiceImpl implements ChatService {
     @Transactional
     @Override
     public void create(CreatePrivateChatEvent event) {
-        var chatIds = chatMemberRepository.findAllChatIdByUserIds(Set.of(
+        var chatIds = chatMemberRepository.findAllChatIdWithUserIdsAsMembersForEach(Set.of(
                 event.chatMember1(),
                 event.chatMember2()
         ));
         if (!chatIds.isEmpty()) {
-            throw new IllegalArgumentException(
+            throw new AlreadyExistException(
                     "Chat with members: [%s, %s] already exist!".formatted(event.chatMember1(), event.chatMember2())
             );
         }
