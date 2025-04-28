@@ -9,8 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.random.walk.chat_service.mapper.MessageMapper;
 import ru.random.walk.chat_service.model.dto.request.MessageRequestDto;
-import ru.random.walk.chat_service.service.Authenticator;
 import ru.random.walk.chat_service.service.MessageService;
+import ru.random.walk.chat_service.service.auth.Authenticator;
 
 import java.security.Principal;
 

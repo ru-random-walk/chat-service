@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.random.walk.chat_service.controller.validation.PageableConstraint;
 import ru.random.walk.chat_service.model.dto.response.ChatDto;
-import ru.random.walk.chat_service.service.Authenticator;
 import ru.random.walk.chat_service.service.ChatService;
+import ru.random.walk.chat_service.service.auth.Authenticator;
 
 import java.security.Principal;
 import java.util.List;

@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import ru.random.walk.chat_service.config.InterConfig;
 import ru.random.walk.chat_service.config.properties.BrokerProps;
 
 @OpenAPIDefinition(
@@ -13,7 +14,7 @@ import ru.random.walk.chat_service.config.properties.BrokerProps;
                 @Server(url = "/chat", description = "Chat server url")
         }
 )
-@EnableConfigurationProperties(BrokerProps.class)
+@EnableConfigurationProperties({BrokerProps.class, InterConfig.class})
 @SpringBootApplication
 @EnableSpringDataWebSupport(pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 public class ChatServiceApplication {
