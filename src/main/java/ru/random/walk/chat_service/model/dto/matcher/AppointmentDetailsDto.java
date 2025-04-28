@@ -8,6 +8,9 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * @see ru.random.walk.chat_service.model.dto.matcher.AppointmentStatus AppointmentStatus enum to convert raw status in it
+ */
 @Builder
 public record AppointmentDetailsDto(
         UUID id,
@@ -21,7 +24,7 @@ public record AppointmentDetailsDto(
         @Schema(example = "2024-10-31T01:30:00.000+03:00")
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         OffsetDateTime endedAt,
-        AppointmentStatus status,
+        String status,
         Double longitude,
         Double latitude
 ) {
