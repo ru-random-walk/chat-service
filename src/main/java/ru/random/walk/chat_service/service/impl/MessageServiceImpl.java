@@ -9,11 +9,16 @@ import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Service;
 import ru.random.walk.chat_service.mapper.MessageMapper;
 import ru.random.walk.chat_service.model.domain.MessageFilter;
+import ru.random.walk.chat_service.model.domain.OutboxHttpTopic;
+import ru.random.walk.chat_service.model.domain.payload.RequestForWalkPayload;
+import ru.random.walk.chat_service.model.dto.matcher.RequestForAppointmentDto;
 import ru.random.walk.chat_service.model.dto.response.MessageDto;
 import ru.random.walk.chat_service.model.entity.MessageEntity;
 import ru.random.walk.chat_service.repository.MessageRepository;
 import ru.random.walk.chat_service.service.MessageService;
+import ru.random.walk.chat_service.service.OutboxSenderService;
 
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -25,6 +30,7 @@ public class MessageServiceImpl implements MessageService {
     private final MessageMapper messageMapper;
     private final SimpUserRegistry userRegistry;
     private final SimpMessagingTemplate messagingTemplate;
+    private final OutboxSenderService outboxSenderService;
 
     @Override
     public Page<MessageDto> getMessagePageByChatIdAndFilter(Pageable pageable, UUID chatId, MessageFilter filter) {
@@ -35,9 +41,23 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void sendMessage(MessageEntity message) {
-        messageRepository.save(message);
         if (isUserConnected(message.getSender())) {
             messagingTemplate.convertAndSend("/topic/chat/" + message.getChatId(), message);
+        }
+        messageRepository.save(message);
+        if (message.getPayload() instanceof RequestForWalkPayload requestForWalkPayload) {
+            outboxSenderService.sendMessage(
+                    OutboxHttpTopic.SEND_CREATING_APPOINTMENT_TO_MATCHER,
+                    RequestForAppointmentDto.builder()
+                            .requesterId(message.getSender())
+                            .partnerId(message.getRecipient())
+                            .startTime(
+                                    OffsetDateTime.from(requestForWalkPayload.getStartsAt())
+                            )
+                            .longitude(requestForWalkPayload.getLocation().getLongitude())
+                            .latitude(requestForWalkPayload.getLocation().getLatitude())
+                            .build()
+            );
         }
     }
 
