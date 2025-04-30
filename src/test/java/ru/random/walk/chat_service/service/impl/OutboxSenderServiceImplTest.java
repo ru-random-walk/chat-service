@@ -10,17 +10,27 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import ru.random.walk.chat_service.AbstractPostgresContainerTest;
+import ru.random.walk.chat_service.model.domain.OutboxAdditionalInfoKey;
 import ru.random.walk.chat_service.model.domain.OutboxHttpTopic;
+import ru.random.walk.chat_service.model.domain.payload.LocationPayload;
+import ru.random.walk.chat_service.model.domain.payload.RequestForWalkPayload;
 import ru.random.walk.chat_service.model.dto.matcher.AppointmentDetailsDto;
 import ru.random.walk.chat_service.model.dto.matcher.RequestForAppointmentDto;
+import ru.random.walk.chat_service.model.entity.ChatEntity;
+import ru.random.walk.chat_service.model.entity.MessageEntity;
 import ru.random.walk.chat_service.model.entity.OutboxMessage;
+import ru.random.walk.chat_service.model.entity.type.ChatType;
+import ru.random.walk.chat_service.repository.ChatRepository;
+import ru.random.walk.chat_service.repository.MessageRepository;
 import ru.random.walk.chat_service.repository.OutboxRepository;
 import ru.random.walk.chat_service.service.OutboxSenderService;
 import ru.random.walk.chat_service.service.client.MatcherClient;
 import ru.random.walk.chat_service.service.job.OutboxSendingJob;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -37,6 +47,8 @@ class OutboxSenderServiceImplTest extends AbstractPostgresContainerTest {
     private final OutboxSenderService outboxSenderService;
     private final OutboxSendingJob outboxSendingJob;
     private final OutboxRepository outboxRepository;
+    private final MessageRepository messageRepository;
+    private final ChatRepository chatRepository;
     private final ObjectMapper objectMapper;
 
     @MockBean
@@ -87,9 +99,27 @@ class OutboxSenderServiceImplTest extends AbstractPostgresContainerTest {
                 .build();
         String payload = objectMapper.writeValueAsString(dto);
 
+        var chat = chatRepository.save(ChatEntity.builder()
+                .type(ChatType.PRIVATE)
+                .build());
+
+        var message = messageRepository.save(MessageEntity.builder()
+                .chatId(chat.getId())
+                .recipient(UUID.randomUUID())
+                .sender(UUID.randomUUID())
+                .sentAt(LocalDateTime.now())
+                .payload(new RequestForWalkPayload(
+                        new LocationPayload(0d, 0d, "Semyonov", "Sportivnaya", null),
+                        LocalDateTime.now()
+                ))
+                .build());
+
         OutboxMessage outboxMessage = new OutboxMessage();
         outboxMessage.setPayload(payload);
         outboxMessage.setTopic(OutboxHttpTopic.SEND_CREATING_APPOINTMENT_TO_MATCHER.name());
+        outboxMessage.setAdditionalInfo(Map.of(
+                OutboxAdditionalInfoKey.MESSAGE_ID.name(), message.getId().toString()
+        ));
 
         assertFalse(outboxMessage.isSent());
 
