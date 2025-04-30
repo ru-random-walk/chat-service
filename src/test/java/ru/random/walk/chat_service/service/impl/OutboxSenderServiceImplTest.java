@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -50,6 +53,7 @@ class OutboxSenderServiceImplTest extends AbstractPostgresContainerTest {
     private final MessageRepository messageRepository;
     private final ChatRepository chatRepository;
     private final ObjectMapper objectMapper;
+    private final Scheduler scheduler;
 
     @MockBean
     private MatcherClient matcherClient;
@@ -129,5 +133,11 @@ class OutboxSenderServiceImplTest extends AbstractPostgresContainerTest {
 
         var outboxResult = outboxRepository.findById(outboxMessage.getId()).orElseThrow();
         assertTrue(outboxResult.isSent());
+    }
+
+    @Test
+    void checkJobsAreExist() throws SchedulerException {
+        scheduler.checkExists(JobKey.jobKey("OutboxExpireJob"));
+        scheduler.checkExists(JobKey.jobKey("OutboxSendingJob"));
     }
 }
