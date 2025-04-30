@@ -1,6 +1,5 @@
 package ru.random.walk.chat_service.model.entity;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -30,10 +29,6 @@ public class AppointmentEntity {
     @Id
     @Column(name = "message_id", nullable = false)
     private UUID messageId;
-
-    @Nullable
-    @Column(name = "is_accepted")
-    private Boolean isAccepted;
 
     @Data
     @NoArgsConstructor

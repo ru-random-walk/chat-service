@@ -64,7 +64,9 @@ public class OutboxSendingJob implements Job {
     private void tryToSendHttpRequest(OutboxHttpTopic topic, OutboxMessage message) throws JsonProcessingException {
         if (topic == OutboxHttpTopic.SEND_CREATING_APPOINTMENT_TO_MATCHER) {
             var dto = objectMapper.readValue(message.getPayload(), RequestForAppointmentDto.class);
-            var messageEntity = Optional.of(message.getAdditionalInfo().get(OutboxAdditionalInfoKey.MESSAGE_ID.name()))
+            var messageEntity = Optional.ofNullable(
+                            message.getAdditionalInfo().get(OutboxAdditionalInfoKey.MESSAGE_ID.name())
+                    )
                     .map(UUID::fromString)
                     .flatMap(messageRepository::findById)
                     .orElseThrow();
