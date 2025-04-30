@@ -1,0 +1,7 @@
+create table if not exist chat.appointments
+(
+    appointment_id  uuid not null unique,
+    message_id      uuid not null unique,
+    is_accepted     boolean,
+    foreign key (message_id) references chat.message (id)
+);

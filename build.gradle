@@ -53,7 +53,7 @@ dependencies {
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.mapstruct:mapstruct:1.6.2'
-    implementation 'ru.random.walk:event-exchange-contract:1.0.1'
+    implementation 'ru.random.walk:event-exchange-contract:1.2.6'
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'org.springframework.boot:spring-boot-starter-quartz'
 }
