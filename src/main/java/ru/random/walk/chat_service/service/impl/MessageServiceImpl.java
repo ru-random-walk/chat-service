@@ -9,6 +9,7 @@ import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Service;
 import ru.random.walk.chat_service.mapper.MessageMapper;
 import ru.random.walk.chat_service.model.domain.MessageFilter;
+import ru.random.walk.chat_service.model.domain.OutboxAdditionalInfoKey;
 import ru.random.walk.chat_service.model.domain.OutboxHttpTopic;
 import ru.random.walk.chat_service.model.domain.payload.RequestForWalkPayload;
 import ru.random.walk.chat_service.model.dto.matcher.RequestForAppointmentDto;
@@ -19,6 +20,7 @@ import ru.random.walk.chat_service.service.MessageService;
 import ru.random.walk.chat_service.service.OutboxSenderService;
 
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -56,7 +58,8 @@ public class MessageServiceImpl implements MessageService {
                             )
                             .longitude(requestForWalkPayload.getLocation().getLongitude())
                             .latitude(requestForWalkPayload.getLocation().getLatitude())
-                            .build()
+                            .build(),
+                    Map.of(OutboxAdditionalInfoKey.MESSAGE_ID.name(), message.getId().toString())
             );
         }
     }

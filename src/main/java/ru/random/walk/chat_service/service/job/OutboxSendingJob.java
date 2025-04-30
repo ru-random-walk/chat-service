@@ -10,13 +10,18 @@ import org.quartz.JobExecutionContext;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.random.walk.chat_service.model.domain.OutboxAdditionalInfoKey;
 import ru.random.walk.chat_service.model.domain.OutboxHttpTopic;
 import ru.random.walk.chat_service.model.dto.matcher.RequestForAppointmentDto;
+import ru.random.walk.chat_service.model.entity.AppointmentEntity;
 import ru.random.walk.chat_service.model.entity.OutboxMessage;
+import ru.random.walk.chat_service.repository.AppointmentRepository;
 import ru.random.walk.chat_service.repository.OutboxRepository;
 import ru.random.walk.chat_service.service.client.MatcherClient;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -27,6 +32,7 @@ public class OutboxSendingJob implements Job {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final MatcherClient matcherClient;
     private final ObjectMapper objectMapper;
+    private final AppointmentRepository appointmentRepository;
 
     @Override
     @Transactional
@@ -53,7 +59,14 @@ public class OutboxSendingJob implements Job {
     private void tryToSendHttpRequest(OutboxHttpTopic topic, OutboxMessage message) throws JsonProcessingException {
         if (topic == OutboxHttpTopic.SEND_CREATING_APPOINTMENT_TO_MATCHER) {
             var dto = objectMapper.readValue(message.getPayload(), RequestForAppointmentDto.class);
-            matcherClient.requestForAppointment(dto);
+            var messageId = Optional.of(message.getAdditionalInfo().get(OutboxAdditionalInfoKey.MESSAGE_ID.name()))
+                    .map(UUID::fromString)
+                    .orElseThrow();
+            var appointmentDetailsDto = matcherClient.requestForAppointment(dto);
+            appointmentRepository.save(AppointmentEntity.builder()
+                    .appointmentId(appointmentDetailsDto.id())
+                    .messageId(messageId)
+                    .build());
         }
     }
 
