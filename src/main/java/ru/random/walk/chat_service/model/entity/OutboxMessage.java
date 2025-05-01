@@ -15,6 +15,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -31,6 +32,10 @@ public class OutboxMessage {
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "PAYLOAD")
     private String payload;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "additional_info")
+    private Map<String, String> additionalInfo;
 
     @Column(name = "TOPIC")
     private String topic;
