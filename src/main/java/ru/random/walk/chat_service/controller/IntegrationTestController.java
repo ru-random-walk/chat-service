@@ -19,7 +19,7 @@ import ru.random.walk.dto.RequestedAppointmentStateEvent;
 @Tag(name = "REST Integration Test Controller")
 @Slf4j
 @RequiredArgsConstructor
-@PreAuthorize(value = "hasRole('TESTER')")
+@PreAuthorize("hasAuthority('TESTER')")
 public class IntegrationTestController {
     private final ChatService chatService;
     private final AppointmentService appointmentService;
