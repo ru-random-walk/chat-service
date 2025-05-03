@@ -44,10 +44,10 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void sendMessage(MessageEntity message) {
+        messageRepository.save(message);
         if (isUserConnected(message.getSender())) {
             messagingTemplate.convertAndSend("/topic/chat/" + message.getChatId(), message);
         }
-        messageRepository.save(message);
         if (message.getPayload() instanceof RequestForWalkPayload requestForWalkPayload) {
             OffsetDateTime startTime = requestForWalkPayload.getStartsAt()
                     .atZone(ZoneOffset.systemDefault()).toOffsetDateTime();
