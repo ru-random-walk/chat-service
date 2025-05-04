@@ -48,6 +48,7 @@ public class WebSecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST).permitAll()
+                        .requestMatchers("/ws").hasAuthority("DEFAULT_USER")
                         .requestMatchers("/").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )

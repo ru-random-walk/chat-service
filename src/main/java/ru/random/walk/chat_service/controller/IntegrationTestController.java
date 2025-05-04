@@ -33,7 +33,7 @@ public class IntegrationTestController {
 
     @Operation(summary = "Send requested appointment state event - Kafka integration test")
     @PostMapping("/send-requested-appointment-state-event")
-    public void sendRequestedAppointmentStateEvent(RequestedAppointmentStateEvent event) {
+    public void sendRequestedAppointmentStateEvent(@RequestBody RequestedAppointmentStateEvent event) {
         log.info("Received requested appointment state event: {}", event);
         appointmentService.updateState(event);
     }

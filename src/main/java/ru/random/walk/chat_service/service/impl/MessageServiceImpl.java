@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.random.walk.chat_service.mapper.MessageMapper;
 import ru.random.walk.chat_service.model.domain.MessageFilter;
 import ru.random.walk.chat_service.model.domain.OutboxAdditionalInfoKey;
@@ -43,11 +44,12 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    @Transactional
     public void sendMessage(MessageEntity message) {
+        messageRepository.save(message);
         if (isUserConnected(message.getSender())) {
             messagingTemplate.convertAndSend("/topic/chat/" + message.getChatId(), message);
         }
-        messageRepository.save(message);
         if (message.getPayload() instanceof RequestForWalkPayload requestForWalkPayload) {
             OffsetDateTime startTime = requestForWalkPayload.getStartsAt()
                     .atZone(ZoneOffset.systemDefault()).toOffsetDateTime();
