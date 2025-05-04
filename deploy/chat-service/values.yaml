@@ -29,7 +29,7 @@ env:
   - name: KAFKA_URL
     value: "kafka-cluster.kafka.svc.cluster.local:9092"
   - name: MATCHER_URL
-    value: "matcher-service.matcher-service.svc.cluster.local:8080"
+    value: "http://matcher-service.matcher-service.svc.cluster.local:8080"
 
 secrets:
   - name: ACTIVEMQ_ARTEMIS_LOGIN
