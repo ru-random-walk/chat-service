@@ -18,13 +18,13 @@ public class EventConsumer {
     private final AppointmentService appointmentService;
 
     @KafkaListener(topics = EventTopic.CREATE_CHAT)
-    public void listen(CreatePrivateChatEvent event) {
+    public void listenCreatePrivateChatEvent(CreatePrivateChatEvent event) {
         log.info("Received create chat event: {}", event);
         chatService.create(event);
     }
 
     @KafkaListener(topics = EventTopic.REQUESTED_APPOINTMENT_STATE)
-    public void listen(RequestedAppointmentStateEvent event) {
+    public void listenRequestedAppointmentStateEvent(RequestedAppointmentStateEvent event) {
         log.info("Received requested appointment state event: {}", event);
         appointmentService.updateState(event);
     }
