@@ -1,7 +1,7 @@
 spring:
   kafka:
+    bootstrap-servers: ${KAFKA_URL:localhost:9092}
     consumer:
-      bootstrap-servers: ${KAFKA_URL:localhost:9092}
       group-id: "chat-service"
       max-poll-records: 10
       auto-offset-reset: latest
