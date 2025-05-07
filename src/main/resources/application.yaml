@@ -6,6 +6,26 @@ spring:
       max-poll-records: 10
       auto-offset-reset: latest
       enable-auto-commit: true
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceId: AUTO
+          jobStore:
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+            useProperties: false
+            tablePrefix: QRTZ_
+            clusterCheckinInterval: 5000
+            isClustered: true
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 10
+            threadsInheritContextClassLoaderOfInitializingThread: true
+      auto-startup: false
   jpa:
     show-sql: ${LOGGING_SHOW_JPA_QUERIES:true}
     properties:
