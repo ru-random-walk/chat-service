@@ -10,6 +10,7 @@ import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import ru.random.walk.chat_service.AbstractPostgresContainerTest;
@@ -32,8 +33,10 @@ import ru.random.walk.chat_service.service.job.OutboxSendingJob;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -54,6 +57,7 @@ class OutboxSenderServiceImplTest extends AbstractPostgresContainerTest {
     private final ChatRepository chatRepository;
     private final ObjectMapper objectMapper;
     private final Scheduler scheduler;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @MockBean
     private MatcherClient matcherClient;
@@ -137,7 +141,18 @@ class OutboxSenderServiceImplTest extends AbstractPostgresContainerTest {
 
     @Test
     void checkJobsAreExist() throws SchedulerException {
-        assert scheduler.checkExists(JobKey.jobKey("OutboxExpireJob"));
-        assert scheduler.checkExists(JobKey.jobKey("OutboxSendingJob"));
+        var expireJobName = "OutboxExpireJob";
+        var sendingJobName = "OutboxSendingJob";
+
+        assert scheduler.checkExists(JobKey.jobKey(expireJobName));
+        assert scheduler.checkExists(JobKey.jobKey(sendingJobName));
+        var jobs = new HashSet<>(jdbcTemplate.query(
+                """
+                        select JOB_NAME
+                        from QRTZ_JOB_DETAILS
+                        """,
+                (rs, rowNum) -> rs.getString("JOB_NAME")
+        ));
+        assertEquals(Set.of(expireJobName, sendingJobName), jobs);
     }
 }
