@@ -1,5 +1,7 @@
 # Chat Service
 
+[![ci](https://github.com/ru-random-walk/chat-service/actions/workflows/workflow.yaml/badge.svg?branch=master)](https://github.com/ru-random-walk/chat-service/actions/workflows/workflow.yaml)
+
 Сервис для отправки сообщений между пользователями, хранение сообщений
 
 ---
