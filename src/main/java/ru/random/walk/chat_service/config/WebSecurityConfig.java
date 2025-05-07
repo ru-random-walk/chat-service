@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @EnableMethodSecurity
 @AllArgsConstructor
 public class WebSecurityConfig {
-    public static final String[] AUTH_WHITELIST = {
+    public static final String[] SWAGGER_REQUEST_MATHCERS = {
             // Swagger
             "/configuration/security",
             "/configuration/ui",
@@ -32,6 +32,8 @@ public class WebSecurityConfig {
             "/webjars/**",
             "/v3/api-docs/**",
             "/v3/api-docs.yaml",
+    };
+    public static final String[] AUTH_WHITELIST = {
             // Spring boot actuator
             "/actuator/**"
     };
@@ -48,6 +50,7 @@ public class WebSecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST).permitAll()
+                        .requestMatchers(SWAGGER_REQUEST_MATHCERS).hasAnyAuthority("TESTER", "ADMIN")
                         .requestMatchers("/ws").hasAuthority("DEFAULT_USER")
                         .requestMatchers("/").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
