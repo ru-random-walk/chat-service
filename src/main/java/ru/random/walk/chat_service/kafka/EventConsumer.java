@@ -22,7 +22,7 @@ public class EventConsumer {
 
     @KafkaListener(topics = EventTopic.CREATE_CHAT)
     public void listenCreatePrivateChatEvent(String message) throws JsonProcessingException {
-        log.info("Try to handle raw event {}", message);
+        log.info("Try to handle raw CREATE_CHAT event {}", message);
         var event = objectMapper.readValue(message, CreatePrivateChatEvent.class);
         log.info("Received create chat event: {}", event);
         chatService.create(event);
@@ -30,7 +30,7 @@ public class EventConsumer {
 
     @KafkaListener(topics = EventTopic.REQUESTED_APPOINTMENT_STATE)
     public void listenRequestedAppointmentStateEvent(String message) throws JsonProcessingException {
-        log.info("Try to handle raw event {}", message);
+        log.info("Try to handle raw REQUESTED_APPOINTMENT_STATE event {}", message);
         var event = objectMapper.readValue(message, RequestedAppointmentStateEvent.class);
         log.info("Received requested appointment state event: {}", event);
         appointmentService.updateState(event);
