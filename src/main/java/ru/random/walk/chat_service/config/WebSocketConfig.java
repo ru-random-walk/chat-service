@@ -3,6 +3,8 @@ package ru.random.walk.chat_service.config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -21,6 +23,7 @@ import ru.random.walk.chat_service.config.properties.BrokerProps;
 @Configuration
 @EnableWebSocketMessageBroker
 @Slf4j
+@Order(Ordered.HIGHEST_PRECEDENCE + 99)
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private final BrokerProps brokerProps;
 
