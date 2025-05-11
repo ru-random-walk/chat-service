@@ -8,10 +8,12 @@ import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.random.walk.chat_service.model.domain.OutboxAdditionalInfoKey;
 import ru.random.walk.chat_service.model.domain.OutboxHttpTopic;
+import ru.random.walk.chat_service.model.domain.event.AppointmentCreatedForRequestForWalkEvent;
 import ru.random.walk.chat_service.model.domain.payload.RequestForWalkPayload;
 import ru.random.walk.chat_service.model.dto.matcher.AppointmentDetailsDto;
 import ru.random.walk.chat_service.model.dto.matcher.RequestForAppointmentDto;
@@ -38,6 +40,7 @@ public class OutboxSendingJob implements Job {
     private final ObjectMapper objectMapper;
     private final AppointmentRepository appointmentRepository;
     private final MessageRepository messageRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @Override
     @Transactional
@@ -71,6 +74,13 @@ public class OutboxSendingJob implements Job {
                     .flatMap(messageRepository::findById)
                     .orElseThrow();
             var appointmentDetailsDto = matcherClient.requestForAppointment(dto);
+            messagingTemplate.convertAndSend(
+                    "/topic/chat/" + messageEntity.getChatId(),
+                    AppointmentCreatedForRequestForWalkEvent.builder()
+                            .appointmentId(appointmentDetailsDto.id())
+                            .messageId(messageEntity.getId())
+                            .build()
+            );
             attachAppointmentIdToMessage(messageEntity, appointmentDetailsDto);
             appointmentRepository.save(AppointmentEntity.builder()
                     .appointmentId(appointmentDetailsDto.id())
