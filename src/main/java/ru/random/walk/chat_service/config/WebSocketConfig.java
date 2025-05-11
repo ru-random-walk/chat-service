@@ -53,11 +53,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             public Message<?> preSend(@NonNull Message<?> message, @NonNull MessageChannel channel) {
                 StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-                    log.info("Pre send with message: {} and channel: {}", message, channel);
+                    log.info("Pre send with message: [{}] channel: [{}] and accessor: [{}]", message, channel, accessor);
                     // Access authentication header(s) and invoke accessor.setUser(user)
 //                    accessor.getFirstNativeHeader()
 //                    message.getHeaders().get()
 //                    accessor.setUser();
+//                    accessor.getFirstNativeHeader()
                     accessor.setUser(accessor.getUser());
                 }
                 return message;
