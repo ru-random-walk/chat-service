@@ -14,6 +14,9 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
@@ -26,6 +29,7 @@ import ru.random.walk.chat_service.config.properties.BrokerProps;
 @Order(Ordered.HIGHEST_PRECEDENCE + 99)
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private final BrokerProps brokerProps;
+    private final JwtAuthenticationConverter jwtAuthenticationConverter;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -57,15 +61,39 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 log.info("PreSendMethod message: [{}]", message);
                 StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-//                    log.info("Pre send with message: [{}] channel: [{}] and accessor: [{}]", message, channel, accessor);
-                    // Access authentication header(s) and invoke accessor.setUser(user)
-//                    accessor.getFirstNativeHeader()
-//                    message.getHeaders().get()
-//                    accessor.setUser();
-//                    accessor.getFirstNativeHeader()
-                    accessor.setUser(accessor.getUser());
+                    String authHeader = accessor.getFirstNativeHeader("Authorization");
+                    if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                        String token = authHeader.substring(7); // Extract the token
+                        try {
+                            // Validate the token and extract user information
+                            // This is a placeholder; use a JWT library to decode and validate the token
+                            String user = validateTokenAndGetUser(token);
+                            accessor.setUser(() -> user); // Set the user
+                        } catch (Exception e) {
+                            log.error("Invalid token", e);
+                            // Handle invalid token
+                        }
+                    }
                 }
                 return message;
+            }
+
+            private String validateTokenAndGetUser(String token) {
+                // Create a Jwt object from the token string
+                Jwt jwt = Jwt.withTokenValue(token).build();
+
+                // Convert the Jwt to an Authentication object
+                // This step may involve validating the token signature, issuer, audience, etc.
+                // You might need to configure a JwtDecoder with the necessary validation logic
+                Authentication authentication = jwtAuthenticationConverter.convert(jwt);
+
+                // Extract the user information from the Authentication object
+                // This could be the username, user ID, or any other user-related information
+                if (authentication.isAuthenticated()) {
+                    return authentication.getName(); // or any other user information you need
+                } else {
+                    throw new RuntimeException("Invalid token");
+                }
             }
         });
     }
