@@ -31,7 +31,7 @@ public class ChatWebSocketController {
                         with chat id [{}]
                         """,
                 principal, principal.getName(), messageRequestDto.chatId());
-        authenticator.authSender(principal, messageRequestDto.sender(), messageRequestDto.chatId());
+//        authenticator.authSender(principal, messageRequestDto.sender(), messageRequestDto.chatId());
         var message = messageMapper.toEntity(messageRequestDto);
         messageService.sendMessage(message);
     }
