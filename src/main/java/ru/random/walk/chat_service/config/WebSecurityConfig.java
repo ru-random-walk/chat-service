@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @EnableMethodSecurity
 @AllArgsConstructor
 public class WebSecurityConfig {
-    public static final String[] SWAGGER_REQUEST_MATHCERS = {
+    public static final String[] SWAGGER_REQUEST_MATCHERS = {
             // Swagger
             "/configuration/security",
             "/configuration/ui",
@@ -50,7 +50,7 @@ public class WebSecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST).permitAll()
-                        .requestMatchers(SWAGGER_REQUEST_MATHCERS).hasAnyAuthority("TESTER", "ADMIN")
+                        .requestMatchers(SWAGGER_REQUEST_MATCHERS).hasAnyAuthority("TESTER", "ADMIN")
                         .requestMatchers("/ws").hasAuthority("DEFAULT_USER")
                         .requestMatchers("/").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
