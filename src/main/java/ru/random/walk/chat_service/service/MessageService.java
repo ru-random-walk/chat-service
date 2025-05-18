@@ -12,6 +12,4 @@ public interface MessageService {
     Page<MessageDto> getMessagePageByChatIdAndFilter(Pageable pageable, UUID chatId, MessageFilter filter);
 
     void sendMessage(MessageEntity message);
-
-    boolean isUserConnected(UUID user);
 }

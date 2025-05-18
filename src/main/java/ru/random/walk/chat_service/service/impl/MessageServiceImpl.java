@@ -23,7 +23,6 @@ import ru.random.walk.chat_service.service.OutboxSenderService;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -47,9 +46,7 @@ public class MessageServiceImpl implements MessageService {
     @Transactional
     public void sendMessage(MessageEntity message) {
         messageRepository.save(message);
-        if (isUserConnected(message.getSender())) {
-            messagingTemplate.convertAndSend("/topic/chat/" + message.getChatId(), message);
-        }
+        messagingTemplate.convertAndSend("/topic/chat/" + message.getChatId(), message);
         if (message.getPayload() instanceof RequestForWalkPayload requestForWalkPayload) {
             OffsetDateTime startTime = requestForWalkPayload.getStartsAt()
                     .atZone(ZoneOffset.systemDefault()).toOffsetDateTime();
@@ -65,11 +62,5 @@ public class MessageServiceImpl implements MessageService {
                     Map.of(OutboxAdditionalInfoKey.MESSAGE_ID.name(), message.getId().toString())
             );
         }
-    }
-
-    @Override
-    public boolean isUserConnected(UUID user) {
-        var userId = user.toString();
-        return Objects.nonNull(userRegistry.getUser(userId));
     }
 }
