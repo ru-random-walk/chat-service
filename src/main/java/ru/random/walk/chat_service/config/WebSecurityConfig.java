@@ -51,7 +51,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers(SWAGGER_REQUEST_MATCHERS).hasAnyAuthority("TESTER", "ADMIN")
-                        .requestMatchers("/ws").hasAuthority("DEFAULT_USER")
+                        .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
