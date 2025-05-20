@@ -1,6 +1,7 @@
 package ru.random.walk.chat_service.service.auth;
 
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
 import java.security.Principal;
 import java.util.UUID;
@@ -13,4 +14,6 @@ public interface Authenticator {
     void authSender(Principal principal, UUID sender, UUID chatId);
 
     Principal getPrincipal(SimpMessageHeaderAccessor headerAccessor);
+
+    void authSubscriber(SessionSubscribeEvent subscriberEvent);
 }

@@ -6,6 +6,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 import ru.random.walk.chat_service.model.exception.AuthenticationException;
 import ru.random.walk.chat_service.repository.ChatMemberRepository;
 import ru.random.walk.chat_service.service.auth.Authenticator;
@@ -43,7 +44,33 @@ public class AuthenticatorImpl implements Authenticator {
 
     @Override
     public Principal getPrincipal(SimpMessageHeaderAccessor headerAccessor) {
-        var bearerToken = headerAccessor.getFirstNativeHeader("Authorization");
+        var token = headerAccessor.getFirstNativeHeader("Authorization");
+        return fromBearerToken(token);
+    }
+
+    @Override
+    public void authSubscriber(SessionSubscribeEvent subscriberEvent) {
+        SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.getAccessor(
+                subscriberEvent.getMessage(),
+                SimpMessageHeaderAccessor.class
+        );
+        if (headerAccessor == null) {
+            throw new AuthenticationException("Illegal authorization!");
+        }
+        var principal = getPrincipal(headerAccessor);
+        var chatId = getChatId(headerAccessor);
+        authByChatId(principal, chatId);
+    }
+
+    private static UUID getChatId(SimpMessageHeaderAccessor headerAccessor) {
+        var rawDestination = headerAccessor.getHeader("simpDestination");
+        if (!(rawDestination instanceof String destination) || !destination.startsWith("/topic/chat/")) {
+            throw new AuthenticationException("Illegal authorization!");
+        }
+        return UUID.fromString(destination.substring(12));
+    }
+
+    private Principal fromBearerToken(String bearerToken) {
         if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
             throw new AuthenticationException("Illegal authorization!");
         }
