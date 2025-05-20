@@ -12,5 +12,5 @@ public interface Authenticator {
 
     void authSender(Principal principal, UUID sender, UUID chatId);
 
-    void authSender(SimpMessageHeaderAccessor headerAccessor, UUID sender);
+    Principal getPrincipal(SimpMessageHeaderAccessor headerAccessor);
 }

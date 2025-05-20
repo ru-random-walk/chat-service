@@ -24,12 +24,15 @@ public class ChatWebSocketController {
 
     @MessageMapping("/sendMessage")
     public void sendMessage(SimpMessageHeaderAccessor headerAccessor, @RequestBody MessageRequestDto messageRequestDto) {
+        var principal = authenticator.getPrincipal(headerAccessor);
         log.info("""
                         [{}] send message to chat
+                        for [{}]
                         with header [{}]
                         """,
-                headerAccessor, messageRequestDto.chatId());
-        authenticator.authSender(headerAccessor, messageRequestDto.sender());
+                principal.getName(), principal, messageRequestDto.chatId()
+        );
+        authenticator.authSender(principal, messageRequestDto.sender(), messageRequestDto.chatId());
         var message = messageMapper.toEntity(messageRequestDto);
         messageService.sendMessage(message);
     }
