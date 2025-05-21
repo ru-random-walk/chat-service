@@ -3,6 +3,7 @@ package ru.random.walk.chat_service.controller;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,8 +11,6 @@ import ru.random.walk.chat_service.mapper.MessageMapper;
 import ru.random.walk.chat_service.model.dto.request.MessageRequestDto;
 import ru.random.walk.chat_service.service.MessageService;
 import ru.random.walk.chat_service.service.auth.Authenticator;
-
-import java.security.Principal;
 
 @SuppressWarnings("unused")
 @Controller
@@ -24,13 +23,15 @@ public class ChatWebSocketController {
     private final MessageService messageService;
 
     @MessageMapping("/sendMessage")
-    public void sendMessage(Principal principal, @RequestBody MessageRequestDto messageRequestDto) {
+    public void sendMessage(SimpMessageHeaderAccessor headerAccessor, @RequestBody MessageRequestDto messageRequestDto) {
+        var principal = authenticator.getPrincipal(headerAccessor);
         log.info("""
                         [{}] send message to chat
-                        with login [{}]
-                        with chat id [{}]
+                        for [{}]
+                        with header [{}]
                         """,
-                principal, principal.getName(), messageRequestDto.chatId());
+                principal.getName(), principal, messageRequestDto.chatId()
+        );
         authenticator.authSender(principal, messageRequestDto.sender(), messageRequestDto.chatId());
         var message = messageMapper.toEntity(messageRequestDto);
         messageService.sendMessage(message);
