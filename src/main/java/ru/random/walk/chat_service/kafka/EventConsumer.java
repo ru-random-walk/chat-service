@@ -6,9 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import ru.random.walk.chat_service.mapper.UserMapper;
 import ru.random.walk.chat_service.service.AppointmentService;
 import ru.random.walk.chat_service.service.ChatService;
+import ru.random.walk.chat_service.service.UserService;
 import ru.random.walk.dto.CreatePrivateChatEvent;
+import ru.random.walk.dto.RegisteredUserInfoEvent;
 import ru.random.walk.dto.RequestedAppointmentStateEvent;
 import ru.random.walk.topic.EventTopic;
 
@@ -16,9 +19,12 @@ import ru.random.walk.topic.EventTopic;
 @Slf4j
 @RequiredArgsConstructor
 public class EventConsumer {
-    private final ChatService chatService;
     private final ObjectMapper objectMapper;
+    private final UserMapper userMapper;
+
+    private final ChatService chatService;
     private final AppointmentService appointmentService;
+    private final UserService userService;
 
     @KafkaListener(topics = EventTopic.CREATE_CHAT)
     public void listenCreatePrivateChatEvent(String message) throws JsonProcessingException {
@@ -34,5 +40,14 @@ public class EventConsumer {
         var event = objectMapper.readValue(message, RequestedAppointmentStateEvent.class);
         log.info("Received requested appointment state event: {}", event);
         appointmentService.updateState(event);
+    }
+
+    @KafkaListener(topics = EventTopic.USER_REGISTRATION)
+    public void listenUserRegistration(String message) throws JsonProcessingException {
+        log.info("Try to handle raw USER_REGISTRATION event {}", message);
+        var event = objectMapper.readValue(message, RegisteredUserInfoEvent.class);
+        log.info("Received registered user info event: {}", event);
+        var userEntity = userMapper.toEntity(event);
+        userService.add(userEntity);
     }
 }

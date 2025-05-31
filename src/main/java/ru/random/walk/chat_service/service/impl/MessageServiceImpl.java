@@ -18,6 +18,7 @@ import ru.random.walk.chat_service.model.dto.response.MessageDto;
 import ru.random.walk.chat_service.model.entity.MessageEntity;
 import ru.random.walk.chat_service.repository.MessageRepository;
 import ru.random.walk.chat_service.service.MessageService;
+import ru.random.walk.chat_service.service.NotificationSender;
 import ru.random.walk.chat_service.service.OutboxSenderService;
 
 import java.time.OffsetDateTime;
@@ -34,6 +35,7 @@ public class MessageServiceImpl implements MessageService {
     private final SimpUserRegistry userRegistry;
     private final SimpMessagingTemplate messagingTemplate;
     private final OutboxSenderService outboxSenderService;
+    private final NotificationSender notificationSender;
 
     @Override
     public Page<MessageDto> getMessagePageByChatIdAndFilter(Pageable pageable, UUID chatId, MessageFilter filter) {
@@ -62,5 +64,6 @@ public class MessageServiceImpl implements MessageService {
                     Map.of(OutboxAdditionalInfoKey.MESSAGE_ID.name(), message.getId().toString())
             );
         }
+        notificationSender.notifyAboutNewMessage(message);
     }
 }

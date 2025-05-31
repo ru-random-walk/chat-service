@@ -8,7 +8,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.random.walk.chat_service.AbstractPostgresContainerTest;
+import ru.random.walk.chat_service.AbstractContainerTest;
 import ru.random.walk.chat_service.mapper.MessageMapper;
 import ru.random.walk.chat_service.model.entity.ChatEntity;
 import ru.random.walk.chat_service.model.entity.MessageEntity;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-class MessageControllerTest extends AbstractPostgresContainerTest {
+class MessageControllerTest extends AbstractContainerTest {
     private ChatRepository chatRepository;
     private MessageRepository messageRepository;
     private MessageMapper messageMapper;
