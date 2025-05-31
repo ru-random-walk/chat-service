@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-import ru.random.walk.chat_service.AbstractPostgresContainerTest;
+import ru.random.walk.chat_service.AbstractContainerTest;
 import ru.random.walk.chat_service.model.dto.response.ChatDto;
 import ru.random.walk.chat_service.model.entity.ChatEntity;
 import ru.random.walk.chat_service.model.entity.ChatMemberEntity;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-class ChatServiceTest extends AbstractPostgresContainerTest {
+class ChatServiceTest extends AbstractContainerTest {
     private final ChatService chatService;
     private final ChatMemberRepository chatMemberRepository;
     private final ChatRepository chatRepository;

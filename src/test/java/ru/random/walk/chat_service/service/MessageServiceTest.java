@@ -6,8 +6,11 @@ import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import ru.random.walk.chat_service.AbstractContainerTest;
 import ru.random.walk.chat_service.model.domain.payload.TextPayload;
 import ru.random.walk.chat_service.model.entity.ChatEntity;
 import ru.random.walk.chat_service.model.entity.MessageEntity;
@@ -28,7 +31,7 @@ import static ru.random.walk.chat_service.mockito.JsonArgMatcher.jsonEq;
 
 @SpringBootTest
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-class MessageServiceTest {
+class MessageServiceTest extends AbstractContainerTest {
     private final MessageService messageService;
 
     private final ChatRepository chatRepository;
@@ -38,6 +41,8 @@ class MessageServiceTest {
 
     @SpyBean
     private final KafkaTemplate<String, String> kafkaTemplate;
+    @MockBean
+    private final SimpMessagingTemplate messagingTemplate;
 
     @Test
     void testSendingMessageWithNotification() throws JsonProcessingException {
@@ -81,6 +86,5 @@ class MessageServiceTest {
                                         .build()
                         ))
                 );
-
     }
 }

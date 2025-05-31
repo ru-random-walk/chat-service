@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.random.walk.chat_service.AbstractPostgresContainerTest;
+import ru.random.walk.chat_service.AbstractContainerTest;
 import ru.random.walk.chat_service.model.entity.ChatEntity;
 import ru.random.walk.chat_service.model.entity.ChatMemberEntity;
 import ru.random.walk.chat_service.model.entity.type.ChatType;
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-class ChatMemberRepositoryTest extends AbstractPostgresContainerTest {
+class ChatMemberRepositoryTest extends AbstractContainerTest {
     private ChatMemberRepository chatMemberRepository;
     private ChatRepository chatRepository;
 

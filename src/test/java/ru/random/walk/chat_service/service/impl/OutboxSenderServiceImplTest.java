@@ -14,7 +14,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import ru.random.walk.chat_service.AbstractPostgresContainerTest;
+import ru.random.walk.chat_service.AbstractContainerTest;
 import ru.random.walk.chat_service.model.domain.OutboxAdditionalInfoKey;
 import ru.random.walk.chat_service.model.domain.OutboxHttpTopic;
 import ru.random.walk.chat_service.model.domain.payload.LocationPayload;
@@ -50,7 +50,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-class OutboxSenderServiceImplTest extends AbstractPostgresContainerTest {
+class OutboxSenderServiceImplTest extends AbstractContainerTest {
     private final OutboxSenderService outboxSenderService;
     private final OutboxSendingJob outboxSendingJob;
     private final OutboxRepository outboxRepository;
