@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import ru.random.walk.chat_service.model.domain.payload.MessagePayload;
+import ru.random.walk.chat_service.model.domain.payload.RequestForWalkPayload;
+import ru.random.walk.chat_service.model.domain.payload.TextPayload;
 import ru.random.walk.chat_service.model.entity.MessageEntity;
 import ru.random.walk.chat_service.model.entity.UserEntity;
 import ru.random.walk.chat_service.repository.UserRepository;
@@ -25,13 +28,13 @@ public class NotificationSenderImpl implements NotificationSender {
     @Override
     public void notifyAboutNewMessage(MessageEntity message) {
         try {
-            String fromTitlePart = userRepository.findById(message.getSender())
+            String fromPart = userRepository.findById(message.getSender())
                     .map(UserEntity::getFullName)
-                    .map("From %s"::formatted)
+                    .map("от %s"::formatted)
                     .orElse("");
-            var messageBody = objectMapper.writeValueAsString(message.getPayload());
+            String messageBody = parseMessageBody(message.getPayload(), fromPart);
             var notification = SendNotificationEvent.builder()
-                    .title("New message! %s".formatted(fromTitlePart))
+                    .title("Новое сообщение %s!".formatted(fromPart))
                     .body(messageBody)
                     .userId(message.getRecipient())
                     .additionalData(Map.of(
@@ -48,5 +51,18 @@ public class NotificationSenderImpl implements NotificationSender {
                     e
             );
         }
+    }
+
+    private static String parseMessageBody(MessagePayload payload, String fromPart) {
+        return switch (payload) {
+            case TextPayload text -> text.getText();
+            case RequestForWalkPayload requestForWalk ->
+                    "Приглашение на прогулку %s! В городе %s на улице %s!".formatted(
+                            fromPart,
+                            requestForWalk.getLocation().getCity(),
+                            requestForWalk.getLocation().getStreet()
+                    );
+            default -> throw new IllegalStateException("Unexpected value: " + payload);
+        };
     }
 }

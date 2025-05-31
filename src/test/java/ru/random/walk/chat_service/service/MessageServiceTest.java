@@ -11,6 +11,8 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import ru.random.walk.chat_service.AbstractContainerTest;
+import ru.random.walk.chat_service.model.domain.payload.LocationPayload;
+import ru.random.walk.chat_service.model.domain.payload.RequestForWalkPayload;
 import ru.random.walk.chat_service.model.domain.payload.TextPayload;
 import ru.random.walk.chat_service.model.entity.ChatEntity;
 import ru.random.walk.chat_service.model.entity.MessageEntity;
@@ -21,11 +23,11 @@ import ru.random.walk.chat_service.repository.UserRepository;
 import ru.random.walk.dto.SendNotificationEvent;
 import ru.random.walk.topic.EventTopic;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static ru.random.walk.chat_service.mockito.JsonArgMatcher.jsonEq;
 
@@ -54,35 +56,85 @@ class MessageServiceTest extends AbstractContainerTest {
         // Отправитель и получатель сообщения
         var sender = userRepository.saveAndFlush(UserEntity.builder()
                 .id(UUID.randomUUID())
-                .fullName("Gore")
+                .fullName("Чумындра")
                 .build());
         var recipient = userRepository.saveAndFlush(UserEntity.builder()
                 .id(UUID.randomUUID())
-                .fullName("Chuhla")
+                .fullName("Пачко")
                 .build());
 
         // Отправляем сообщение - привет
-        var messagePayload = new TextPayload("Hi!");
+        var textPayload = new TextPayload("Приветик!");
         messageService.sendMessage(MessageEntity.builder()
                 .sender(sender.getId())
                 .chatId(chat.getId())
                 .recipient(recipient.getId())
-                .payload(messagePayload)
+                .payload(textPayload)
                 .build());
 
-        // Проверяем что уведомление было отправлено в нужном формате
-        verify(kafkaTemplate, times(1))
+        // Проверяем что уведомление о текстовом сообщении было отправлено в нужном формате
+        verify(kafkaTemplate)
                 .send(
                         eq(EventTopic.SEND_NOTIFICATION),
                         jsonEq(objectMapper.writeValueAsString(
                                 SendNotificationEvent.builder()
-                                        .title("New message! From Gore")
+                                        .title("Новое сообщение от Чумындра!")
                                         .userId(recipient.getId())
                                         .additionalData(Map.of(
                                                 "sender", sender.getId().toString(),
                                                 "chatId", chat.getId().toString()
                                         ))
-                                        .body(objectMapper.writeValueAsString(messagePayload))
+                                        .body("Приветик!")
+                                        .build()
+                        ))
+                );
+    }
+
+    @Test
+    void testSendingRequestForWalkMessageWithNotification() throws JsonProcessingException {
+        // Был какой-то чат
+        var chat = chatRepository.save(ChatEntity.builder()
+                .type(ChatType.PRIVATE)
+                .build());
+
+        // Отправитель и получатель сообщения
+        var sender = userRepository.saveAndFlush(UserEntity.builder()
+                .id(UUID.randomUUID())
+                .fullName("Чумындра")
+                .build());
+        var recipient = userRepository.saveAndFlush(UserEntity.builder()
+                .id(UUID.randomUUID())
+                .fullName("Пачко")
+                .build());
+
+        // Отправляем приглашение на прогулку
+        var requestForWalk = new RequestForWalkPayload(
+                new LocationPayload(0, 0, "Москва", "Льва Толстого", null),
+                LocalDateTime.now()
+        );
+        messageService.sendMessage(MessageEntity.builder()
+                .sender(sender.getId())
+                .chatId(chat.getId())
+                .recipient(recipient.getId())
+                .payload(requestForWalk)
+                .build());
+
+        // Проверяем что уведомление о приглашении на прогулку было отправлено в нужном формате
+        verify(kafkaTemplate)
+                .send(
+                        eq(EventTopic.SEND_NOTIFICATION),
+                        jsonEq(objectMapper.writeValueAsString(
+                                SendNotificationEvent.builder()
+                                        .title("Новое сообщение от Чумындра!")
+                                        .userId(recipient.getId())
+                                        .additionalData(Map.of(
+                                                "sender", sender.getId().toString(),
+                                                "chatId", chat.getId().toString()
+                                        ))
+                                        .body("""
+                                                Приглашение на прогулку от Чумындра! \
+                                                В городе Москва на улице Льва Толстого!
+                                                """.strip())
                                         .build()
                         ))
                 );
