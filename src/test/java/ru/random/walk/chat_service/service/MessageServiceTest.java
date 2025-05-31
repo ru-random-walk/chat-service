@@ -18,6 +18,7 @@ import ru.random.walk.chat_service.model.entity.ChatEntity;
 import ru.random.walk.chat_service.model.entity.MessageEntity;
 import ru.random.walk.chat_service.model.entity.UserEntity;
 import ru.random.walk.chat_service.model.entity.type.ChatType;
+import ru.random.walk.chat_service.model.exception.ValidationException;
 import ru.random.walk.chat_service.repository.ChatRepository;
 import ru.random.walk.chat_service.repository.UserRepository;
 import ru.random.walk.dto.SendNotificationEvent;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static ru.random.walk.chat_service.mockito.JsonArgMatcher.jsonEq;
@@ -138,5 +140,38 @@ class MessageServiceTest extends AbstractContainerTest {
                                         .build()
                         ))
                 );
+    }
+
+    @Test
+    void testSendingRequestForWalkMessageValidationFailed() {
+        // Был какой-то чат
+        var chat = chatRepository.save(ChatEntity.builder()
+                .type(ChatType.PRIVATE)
+                .build());
+
+        // Отправитель и получатель сообщения
+        var sender = userRepository.saveAndFlush(UserEntity.builder()
+                .id(UUID.randomUUID())
+                .fullName("Чумындра")
+                .build());
+        var recipient = userRepository.saveAndFlush(UserEntity.builder()
+                .id(UUID.randomUUID())
+                .fullName("Пачко")
+                .build());
+
+        // Отправляем приглашение на прогулку с временем старта в прошлом
+        var requestForWalk = new RequestForWalkPayload(
+                new LocationPayload(0, 0, "Москва", "Льва Толстого", null),
+                LocalDateTime.now().minusDays(1).minusHours(23)
+        );
+        assertThrows(
+                ValidationException.class,
+                () -> messageService.sendMessage(MessageEntity.builder()
+                        .sender(sender.getId())
+                        .chatId(chat.getId())
+                        .recipient(recipient.getId())
+                        .payload(requestForWalk)
+                        .build())
+        );
     }
 }

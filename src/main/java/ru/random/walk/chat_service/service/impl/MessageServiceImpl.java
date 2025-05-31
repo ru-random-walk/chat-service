@@ -16,6 +16,7 @@ import ru.random.walk.chat_service.model.domain.payload.RequestForWalkPayload;
 import ru.random.walk.chat_service.model.dto.matcher.RequestForAppointmentDto;
 import ru.random.walk.chat_service.model.dto.response.MessageDto;
 import ru.random.walk.chat_service.model.entity.MessageEntity;
+import ru.random.walk.chat_service.model.exception.ValidationException;
 import ru.random.walk.chat_service.repository.MessageRepository;
 import ru.random.walk.chat_service.service.MessageService;
 import ru.random.walk.chat_service.service.NotificationSender;
@@ -52,6 +53,7 @@ public class MessageServiceImpl implements MessageService {
         if (message.getPayload() instanceof RequestForWalkPayload requestForWalkPayload) {
             OffsetDateTime startTime = requestForWalkPayload.getStartsAt()
                     .atZone(ZoneOffset.systemDefault()).toOffsetDateTime();
+            checkStartTime(startTime);
             outboxSenderService.sendMessage(
                     OutboxHttpTopic.SEND_CREATING_APPOINTMENT_TO_MATCHER,
                     RequestForAppointmentDto.builder()
@@ -65,5 +67,12 @@ public class MessageServiceImpl implements MessageService {
             );
         }
         notificationSender.notifyAboutNewMessage(message);
+    }
+
+    private static void checkStartTime(OffsetDateTime startTime) {
+        var now = OffsetDateTime.now();
+        if (startTime.isBefore(now)) {
+            throw new ValidationException();
+        }
     }
 }
