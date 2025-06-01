@@ -71,7 +71,7 @@ public class MessageServiceImpl implements MessageService {
 
     private static void checkStartTime(OffsetDateTime startTime) {
         var now = OffsetDateTime.now();
-        if (startTime.isBefore(now)) {
+        if (startTime.isBefore(now) && !startTime.isEqual(now)) {
             throw new ValidationException();
         }
     }

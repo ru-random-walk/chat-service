@@ -112,7 +112,7 @@ class MessageServiceTest extends AbstractContainerTest {
         // Отправляем приглашение на прогулку
         var requestForWalk = new RequestForWalkPayload(
                 new LocationPayload(0, 0, "Москва", "Льва Толстого", null),
-                LocalDateTime.now()
+                LocalDateTime.now().plusMinutes(1)
         );
         messageService.sendMessage(MessageEntity.builder()
                 .sender(sender.getId())
