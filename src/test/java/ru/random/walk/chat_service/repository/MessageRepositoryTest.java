@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
-import ru.random.walk.chat_service.AbstractPostgresContainerTest;
+import ru.random.walk.chat_service.AbstractContainerTest;
 import ru.random.walk.chat_service.model.domain.payload.LocationPayload;
 import ru.random.walk.chat_service.model.domain.payload.MessagePayload;
 import ru.random.walk.chat_service.model.domain.payload.RequestForWalkPayload;
@@ -20,11 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-class MessageRepositoryTest extends AbstractPostgresContainerTest {
+class MessageRepositoryTest extends AbstractContainerTest {
     private MessageRepository messageRepository;
     private ChatRepository chatRepository;
 
