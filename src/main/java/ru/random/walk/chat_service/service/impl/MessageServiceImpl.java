@@ -25,6 +25,7 @@ import ru.random.walk.chat_service.service.OutboxSenderService;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -66,7 +67,14 @@ public class MessageServiceImpl implements MessageService {
                     Map.of(OutboxAdditionalInfoKey.MESSAGE_ID.name(), message.getId().toString())
             );
         }
-        notificationSender.notifyAboutNewMessage(message);
+        if (!isUserConnected(message.getRecipient())) {
+            notificationSender.notifyAboutNewMessage(message);
+        }
+    }
+
+    private boolean isUserConnected(UUID userId) {
+        var user = userRegistry.getUser(userId.toString());
+        return Objects.nonNull(user);
     }
 
     private static void checkStartTime(OffsetDateTime startTime) {
