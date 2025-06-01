@@ -24,6 +24,7 @@ import ru.random.walk.chat_service.service.OutboxSenderService;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -70,15 +71,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     private boolean isUserConnected(UUID userId) {
-        log.info("Users: {}", userRegistry.getUsers());
-        for (var user : userRegistry.getUsers()) {
-//            Optional<String> username = Optional.ofNullable(user.get)
-            String username = user.getName();
-            log.info("Username: {}", username);
-            if (username.equals(userId.toString())) {
-                return true;
-            }
-        }
-        return false;
+        var user = userRegistry.getUser(userId.toString());
+        return Objects.nonNull(user);
     }
 }
