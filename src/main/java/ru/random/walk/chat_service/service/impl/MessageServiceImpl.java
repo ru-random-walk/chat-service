@@ -64,6 +64,21 @@ public class MessageServiceImpl implements MessageService {
                     Map.of(OutboxAdditionalInfoKey.MESSAGE_ID.name(), message.getId().toString())
             );
         }
-        notificationSender.notifyAboutNewMessage(message);
+        if (!isUserConnected(message.getRecipient())) {
+            notificationSender.notifyAboutNewMessage(message);
+        }
+    }
+
+    private boolean isUserConnected(UUID userId) {
+        log.info("Users: {}", userRegistry.getUsers());
+        for (var user : userRegistry.getUsers()) {
+//            Optional<String> username = Optional.ofNullable(user.get)
+            String username = user.getName();
+            log.info("Username: {}", username);
+            if (username.equals(userId.toString())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
