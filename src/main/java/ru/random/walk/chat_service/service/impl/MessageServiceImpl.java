@@ -50,7 +50,6 @@ public class MessageServiceImpl implements MessageService {
     @Transactional
     public void sendMessage(MessageEntity message) {
         messageRepository.save(message);
-        messagingTemplate.convertAndSend("/topic/chat/" + message.getChatId(), message);
         if (message.getPayload() instanceof RequestForWalkPayload requestForWalkPayload) {
             OffsetDateTime startTime = requestForWalkPayload.getStartsAt()
                     .atZone(ZoneOffset.systemDefault()).toOffsetDateTime();
@@ -67,6 +66,7 @@ public class MessageServiceImpl implements MessageService {
                     Map.of(OutboxAdditionalInfoKey.MESSAGE_ID.name(), message.getId().toString())
             );
         }
+        messagingTemplate.convertAndSend("/topic/chat/" + message.getChatId(), message);
         if (!isUserConnected(message.getRecipient())) {
             notificationSender.notifyAboutNewMessage(message);
         }

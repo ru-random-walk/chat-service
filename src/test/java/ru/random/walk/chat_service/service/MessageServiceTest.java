@@ -34,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static ru.random.walk.chat_service.mockito.JsonArgMatcher.jsonEq;
 
@@ -179,6 +180,7 @@ class MessageServiceTest extends AbstractContainerTest {
                         .payload(requestForWalk)
                         .build())
         );
+        verifyNoInteractions(messagingTemplate);
     }
 
     @Test
