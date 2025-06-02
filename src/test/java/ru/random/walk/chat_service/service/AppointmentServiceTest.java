@@ -58,7 +58,7 @@ class AppointmentServiceTest extends AbstractContainerTest {
                 .chatId(chat.getId())
                 .payload(new RequestForWalkPayload(
                         new LocationPayload(0d, 0d, "Semyonov", "Sportivnaya", null),
-                        LocalDateTime.now()
+                        LocalDateTime.now().plusMinutes(1)
                 ))
                 .build();
         var appointmentId = UUID.randomUUID();
