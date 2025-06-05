@@ -52,7 +52,8 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.save(message);
         if (message.getPayload() instanceof RequestForWalkPayload requestForWalkPayload) {
             OffsetDateTime startTime = requestForWalkPayload.getStartsAt()
-                    .atZone(ZoneOffset.systemDefault()).toOffsetDateTime();
+                    .atZone(ZoneOffset.UTC)
+                    .toOffsetDateTime();
             checkStartTime(startTime);
             outboxSenderService.sendMessage(
                     OutboxHttpTopic.SEND_CREATING_APPOINTMENT_TO_MATCHER,
