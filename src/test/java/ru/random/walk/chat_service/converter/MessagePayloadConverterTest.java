@@ -37,7 +37,7 @@ public class MessagePayloadConverterTest {
                         "street":"Park culture",
                         "building":null
                     },
-                    "startsAt":"22-09-2024T18:00:00Z",
+                    "startsAt":"2024-09-22T18:00:00.000+0000",
                     "answer":false,
                     "appointmentId":"f5bb8fcd-6117-41dc-9c9e-e45555c6c9d2"
                 }""", json, JSONCompareMode.STRICT);
@@ -61,7 +61,7 @@ public class MessagePayloadConverterTest {
                         "street":"Park culture",
                         "building":null
                     },
-                    "startsAt":"22-09-2024T18:00:00Z"
+                    "startsAt":"2024-09-22T18:00:00.000+0000"
                 }""", json, JSONCompareMode.STRICT);
     }
 
@@ -78,7 +78,7 @@ public class MessagePayloadConverterTest {
                         "street":"Park culture",
                         "building":null
                     },
-                    "startsAt":"18:00 22-09-2024",
+                    "startsAt":"2024-09-22T18:00:00.000+0000",
                     "answer":true,
                     "appointmentId":"f5bb8fcd-6117-41dc-9c9e-e45555c6c9d2"
                 }""";
@@ -102,7 +102,7 @@ public class MessagePayloadConverterTest {
                         "street":"Park culture",
                         "building":null
                     },
-                    "startsAt":"18:00 22-09-2024",
+                    "startsAt":"2024-09-22T18:00:00.000+0000",
                     "answer":null,
                     "appointmentId":null
                 }""";
@@ -126,7 +126,7 @@ public class MessagePayloadConverterTest {
                         "street":"Park culture",
                         "building":null
                     },
-                    "startsAt":"18:00 22-09-2024"
+                    "startsAt":"2024-09-22T18:00:00.000+0000"
                 }""";
         RequestForWalkPayload requestForWalkPayload = (RequestForWalkPayload) converter.convertToEntityAttribute(json);
         assertEquals(

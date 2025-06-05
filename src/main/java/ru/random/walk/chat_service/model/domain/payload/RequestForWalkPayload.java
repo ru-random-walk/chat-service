@@ -21,7 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RequestForWalkPayload extends MessagePayload {
     private LocationPayload location;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = GlobalDateTimeFormat.ISO_PATTERN)
     private OffsetDateTime startsAt;
     @Nullable
     private Boolean answer;

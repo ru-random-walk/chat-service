@@ -17,4 +17,5 @@ import java.time.format.DateTimeFormatter;
 @Schema(example = "18:00 22-09-2024")
 public @interface GlobalDateTimeFormat {
     String DEFAULT_PATTERN = "HH:mm dd-MM-yyyy";
+    String ISO_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 }
