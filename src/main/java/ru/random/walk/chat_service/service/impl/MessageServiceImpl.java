@@ -51,8 +51,7 @@ public class MessageServiceImpl implements MessageService {
     public void sendMessage(MessageEntity message) {
         messageRepository.save(message);
         if (message.getPayload() instanceof RequestForWalkPayload requestForWalkPayload) {
-            OffsetDateTime startTime = requestForWalkPayload.getStartsAt()
-                    .atZone(ZoneOffset.systemDefault()).toOffsetDateTime();
+            OffsetDateTime startTime = requestForWalkPayload.getStartsAt();
             checkStartTime(startTime);
             outboxSenderService.sendMessage(
                     OutboxHttpTopic.SEND_CREATING_APPOINTMENT_TO_MATCHER,
@@ -78,7 +77,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     private static void checkStartTime(OffsetDateTime startTime) {
-        var now = OffsetDateTime.now();
+        var now = OffsetDateTime.now(startTime.getOffset());
         if (startTime.isBefore(now) && !startTime.isEqual(now)) {
             throw new ValidationException();
         }
