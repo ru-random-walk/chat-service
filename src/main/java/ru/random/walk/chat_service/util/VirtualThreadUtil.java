@@ -12,7 +12,7 @@ import java.util.concurrent.Future;
 @Slf4j
 public class VirtualThreadUtil {
     public static final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
-    private static final List<Future<?>> allFutures = new ArrayList<>();
+    private static final List<Future<?>> allRunningFutures = new ArrayList<>();
 
     public static Future<?> scheduleTask(Runnable task) {
         var future = executor.submit(() -> {
@@ -22,13 +22,14 @@ public class VirtualThreadUtil {
                 log.error("Exception in task with virtual thread!", e);
             }
         });
-        allFutures.add(future);
+        allRunningFutures.add(future);
         return future;
     }
 
     public static void awaitAllRunningTasks() throws ExecutionException, InterruptedException {
-        for (var future : allFutures) {
-            future.get();
+        while (!allRunningFutures.isEmpty()) {
+            allRunningFutures.getLast().get();
+            allRunningFutures.removeLast();
         }
     }
 }

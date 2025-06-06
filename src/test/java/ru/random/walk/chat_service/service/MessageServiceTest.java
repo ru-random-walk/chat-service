@@ -197,6 +197,16 @@ class MessageServiceTest extends AbstractContainerTest {
                 .id(UUID.randomUUID())
                 .fullName("Пачко")
                 .build());
+        memberRepository.saveAllAndFlush(List.of(
+                ChatMemberEntity.builder()
+                        .chatId(chat.getId())
+                        .userId(sender.getId())
+                        .build(),
+                ChatMemberEntity.builder()
+                        .chatId(chat.getId())
+                        .userId(recipient.getId())
+                        .build()
+        ));
 
         // Отправляем приглашение на прогулку с временем старта в прошлом
         var requestForWalk = new RequestForWalkPayload(
@@ -231,6 +241,16 @@ class MessageServiceTest extends AbstractContainerTest {
                 .id(UUID.randomUUID())
                 .fullName("Пачко")
                 .build());
+        memberRepository.saveAllAndFlush(List.of(
+                ChatMemberEntity.builder()
+                        .chatId(chat.getId())
+                        .userId(sender.getId())
+                        .build(),
+                ChatMemberEntity.builder()
+                        .chatId(chat.getId())
+                        .userId(recipient.getId())
+                        .build()
+        ));
 
         when(userRegistry.getUser(recipient.getId().toString()))
                 .thenReturn(new StubDataUtil.SimpUserStub());
@@ -256,7 +276,8 @@ class MessageServiceTest extends AbstractContainerTest {
                                 .userId(recipient.getId())
                                 .additionalData(Map.of(
                                         "sender", sender.getId().toString(),
-                                        "chatId", chat.getId().toString()
+                                        "chatId", chat.getId().toString(),
+                                        "chat_members", List.of(sender.getId(), recipient.getId()).toString()
                                 ))
                                 .body("""
                                         Приглашение на прогулку от Чумындра! \
