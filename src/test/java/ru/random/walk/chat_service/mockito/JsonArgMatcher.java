@@ -22,12 +22,12 @@ public class JsonArgMatcher implements ArgumentMatcher<String> {
     public boolean matches(String actualJsonPayload) {
         try {
             JSONAssert.assertEquals(
+                    "jsonEq failed EXPECTED [%s]; BUT ACTUAL [%s]".formatted(expectedJsonPayload, actualJsonPayload),
                     expectedJsonPayload,
                     actualJsonPayload,
                     JSONCompareMode.STRICT
             );
         } catch (JSONException e) {
-            log.error("jsonEq failed EXPECTED [{}]; BUT ACTUAL [{}]", expectedJsonPayload, actualJsonPayload, e);
             return false;
         }
         return true;
