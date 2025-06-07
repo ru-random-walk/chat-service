@@ -21,6 +21,7 @@ import ru.random.walk.chat_service.repository.MessageRepository;
 import ru.random.walk.chat_service.service.MessageService;
 import ru.random.walk.chat_service.service.NotificationSender;
 import ru.random.walk.chat_service.service.OutboxSenderService;
+import ru.random.walk.chat_service.util.VirtualThreadUtil;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -68,7 +69,7 @@ public class MessageServiceImpl implements MessageService {
         }
         messagingTemplate.convertAndSend("/topic/chat/" + message.getChatId(), message);
         if (!isUserConnected(message.getRecipient())) {
-            notificationSender.notifyAboutNewMessage(message);
+            VirtualThreadUtil.scheduleTask(() -> notificationSender.notifyAboutNewMessage(message));
         }
     }
 
