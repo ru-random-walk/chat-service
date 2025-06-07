@@ -1,6 +1,7 @@
 package ru.random.walk.chat_service.mockito;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.mockito.ArgumentMatcher;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -9,6 +10,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import static org.mockito.ArgumentMatchers.argThat;
 
 @AllArgsConstructor
+@Slf4j
 public class JsonArgMatcher implements ArgumentMatcher<String> {
     private final String expectedJsonPayload;
 
@@ -20,6 +22,7 @@ public class JsonArgMatcher implements ArgumentMatcher<String> {
     public boolean matches(String actualJsonPayload) {
         try {
             JSONAssert.assertEquals(
+                    "jsonEq failed EXPECTED: [%s];\n BUT ACTUAL: [%s]\n".formatted(expectedJsonPayload, actualJsonPayload),
                     expectedJsonPayload,
                     actualJsonPayload,
                     JSONCompareMode.STRICT

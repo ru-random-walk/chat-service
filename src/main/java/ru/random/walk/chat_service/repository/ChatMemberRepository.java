@@ -40,4 +40,6 @@ public interface ChatMemberRepository extends JpaRepository<ChatMemberEntity, Ch
     Set<UUID> findAllChatIdWithUserIdsAsMembersForEach(Set<UUID> userIds);
 
     Optional<ChatMemberEntity> findAllByChatIdAndUserId(UUID chatId, UUID userId);
+
+    List<ChatMemberEntity> findAllByChatId(UUID chatId);
 }
