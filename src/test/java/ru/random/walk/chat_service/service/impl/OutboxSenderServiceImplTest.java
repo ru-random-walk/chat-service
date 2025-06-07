@@ -122,7 +122,7 @@ class OutboxSenderServiceImplTest extends AbstractContainerTest {
                 .sentAt(LocalDateTime.now())
                 .payload(new RequestForWalkPayload(
                         new LocationPayload(0d, 0d, "Semyonov", "Sportivnaya", null),
-                        LocalDateTime.now()
+                        OffsetDateTime.now()
                 ))
                 .build());
 

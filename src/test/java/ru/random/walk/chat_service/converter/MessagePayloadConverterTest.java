@@ -7,7 +7,8 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import ru.random.walk.chat_service.model.domain.payload.LocationPayload;
 import ru.random.walk.chat_service.model.domain.payload.RequestForWalkPayload;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +20,7 @@ public class MessagePayloadConverterTest {
     public void testSerialization() throws JSONException {
         RequestForWalkPayload requestForWalkPayload = new RequestForWalkPayload(
                 new LocationPayload(9.4, 2.3, "Moscow", "Park culture", null),
-                LocalDateTime.of(2024, 9, 22, 18, 0),
+                OffsetDateTime.of(2024, 9, 22, 18, 0, 0, 0, ZoneOffset.UTC),
                 false,
                 UUID.fromString("f5bb8fcd-6117-41dc-9c9e-e45555c6c9d2")
         );
@@ -35,7 +36,7 @@ public class MessagePayloadConverterTest {
                         "street":"Park culture",
                         "building":null
                     },
-                    "startsAt":"18:00 22-09-2024",
+                    "startsAt":"2024-09-22T18:00:00.000+0000",
                     "answer":false,
                     "appointmentId":"f5bb8fcd-6117-41dc-9c9e-e45555c6c9d2"
                 }""", json, JSONCompareMode.STRICT);
@@ -45,7 +46,7 @@ public class MessagePayloadConverterTest {
     public void testSerializationWithEmptyFields() throws JSONException {
         RequestForWalkPayload requestForWalkPayload = new RequestForWalkPayload(
                 new LocationPayload(9.4, 2.3, "Moscow", "Park culture", null),
-                LocalDateTime.of(2024, 9, 22, 18, 0)
+                OffsetDateTime.of(2024, 9, 22, 18, 0, 0, 0, ZoneOffset.of("+03:00"))
         );
         String json = converter.convertToDatabaseColumn(requestForWalkPayload);
         JSONAssert.assertEquals("""
@@ -59,7 +60,7 @@ public class MessagePayloadConverterTest {
                         "street":"Park culture",
                         "building":null
                     },
-                    "startsAt":"18:00 22-09-2024"
+                    "startsAt":"2024-09-22T18:00:00.000+0300"
                 }""", json, JSONCompareMode.STRICT);
     }
 
@@ -76,13 +77,13 @@ public class MessagePayloadConverterTest {
                         "street":"Park culture",
                         "building":null
                     },
-                    "startsAt":"18:00 22-09-2024",
+                    "startsAt":"2024-09-22T18:00:00.000+0000",
                     "answer":true,
                     "appointmentId":"f5bb8fcd-6117-41dc-9c9e-e45555c6c9d2"
                 }""";
         RequestForWalkPayload requestForWalkPayload = (RequestForWalkPayload) converter.convertToEntityAttribute(json);
         assertEquals(
-                LocalDateTime.of(2024, 9, 22, 18, 0),
+                OffsetDateTime.of(2024, 9, 22, 18, 0, 0, 0, ZoneOffset.UTC),
                 requestForWalkPayload.getStartsAt()
         );
     }
@@ -100,13 +101,13 @@ public class MessagePayloadConverterTest {
                         "street":"Park culture",
                         "building":null
                     },
-                    "startsAt":"18:00 22-09-2024",
+                    "startsAt":"2024-09-22T18:00:00.000+0000",
                     "answer":null,
                     "appointmentId":null
                 }""";
         RequestForWalkPayload requestForWalkPayload = (RequestForWalkPayload) converter.convertToEntityAttribute(json);
         assertEquals(
-                LocalDateTime.of(2024, 9, 22, 18, 0),
+                OffsetDateTime.of(2024, 9, 22, 18, 0, 0, 0, ZoneOffset.UTC),
                 requestForWalkPayload.getStartsAt()
         );
     }
@@ -124,11 +125,11 @@ public class MessagePayloadConverterTest {
                         "street":"Park culture",
                         "building":null
                     },
-                    "startsAt":"18:00 22-09-2024"
+                    "startsAt":"2024-09-22T18:00:00.000+0000"
                 }""";
         RequestForWalkPayload requestForWalkPayload = (RequestForWalkPayload) converter.convertToEntityAttribute(json);
         assertEquals(
-                LocalDateTime.of(2024, 9, 22, 18, 0),
+                OffsetDateTime.of(2024, 9, 22, 18, 0, 0, 0, ZoneOffset.UTC),
                 requestForWalkPayload.getStartsAt()
         );
     }

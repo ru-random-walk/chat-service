@@ -30,6 +30,7 @@ import ru.random.walk.dto.SendNotificationEvent;
 import ru.random.walk.topic.EventTopic;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -148,7 +149,7 @@ class MessageServiceTest extends AbstractContainerTest {
         // Отправляем приглашение на прогулку
         var requestForWalk = new RequestForWalkPayload(
                 new LocationPayload(0, 0, "Москва", "Льва Толстого", null),
-                LocalDateTime.now().plusMinutes(1)
+                OffsetDateTime.now().plusMinutes(1)
         );
         messageService.sendMessage(MessageEntity.builder()
                 .sender(sender.getId())
@@ -211,7 +212,7 @@ class MessageServiceTest extends AbstractContainerTest {
         // Отправляем приглашение на прогулку с временем старта в прошлом
         var requestForWalk = new RequestForWalkPayload(
                 new LocationPayload(0, 0, "Москва", "Льва Толстого", null),
-                LocalDateTime.now().minusDays(1).minusHours(23)
+                OffsetDateTime.now().minusDays(1).minusHours(23)
         );
         assertThrows(
                 ValidationException.class,
@@ -258,7 +259,7 @@ class MessageServiceTest extends AbstractContainerTest {
         // Отправляем приглашение на прогулку
         var requestForWalk = new RequestForWalkPayload(
                 new LocationPayload(0, 0, "Москва", "Льва Толстого", null),
-                LocalDateTime.now().plusMinutes(1)
+                OffsetDateTime.now().plusMinutes(1)
         );
         messageService.sendMessage(MessageEntity.builder()
                 .sender(sender.getId())

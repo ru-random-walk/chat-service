@@ -21,6 +21,7 @@ import ru.random.walk.chat_service.service.job.OutboxSendingJob;
 import ru.random.walk.dto.RequestedAppointmentStateEvent;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -58,7 +59,7 @@ class AppointmentServiceTest extends AbstractContainerTest {
                 .chatId(chat.getId())
                 .payload(new RequestForWalkPayload(
                         new LocationPayload(0d, 0d, "Semyonov", "Sportivnaya", null),
-                        LocalDateTime.now().plusMinutes(1)
+                        OffsetDateTime.now().plusMinutes(1)
                 ))
                 .build();
         var appointmentId = UUID.randomUUID();

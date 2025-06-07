@@ -16,6 +16,7 @@ import ru.random.walk.chat_service.model.entity.type.ChatType;
 import ru.random.walk.chat_service.model.entity.type.MessageType;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -68,7 +69,7 @@ class MessageRepositoryTest extends AbstractContainerTest {
                 new PayloadWithType(
                         new RequestForWalkPayload(
                                 new LocationPayload(9.4, 2.3, "Moscow", "Park culture", null),
-                                LocalDateTime.now()
+                                OffsetDateTime.now()
                         ),
                         MessageType.REQUEST_FOR_WALK
                 )

@@ -8,6 +8,7 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.time.format.DateTimeFormatter;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
@@ -16,4 +17,5 @@ import java.lang.annotation.Target;
 @Schema(example = "18:00 22-09-2024")
 public @interface GlobalDateTimeFormat {
     String DEFAULT_PATTERN = "HH:mm dd-MM-yyyy";
+    String ISO_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 }
