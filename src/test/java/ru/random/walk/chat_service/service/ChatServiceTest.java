@@ -4,16 +4,21 @@ import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import ru.random.walk.chat_service.AbstractContainerTest;
+import ru.random.walk.chat_service.model.domain.payload.TextPayload;
 import ru.random.walk.chat_service.model.dto.response.ChatDto;
 import ru.random.walk.chat_service.model.entity.ChatEntity;
 import ru.random.walk.chat_service.model.entity.ChatMemberEntity;
+import ru.random.walk.chat_service.model.entity.MessageEntity;
 import ru.random.walk.chat_service.model.entity.type.ChatType;
 import ru.random.walk.chat_service.repository.ChatMemberRepository;
 import ru.random.walk.chat_service.repository.ChatRepository;
 import ru.random.walk.dto.CreatePrivateChatEvent;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -28,21 +33,137 @@ class ChatServiceTest extends AbstractContainerTest {
     private final ChatMemberRepository chatMemberRepository;
     private final ChatRepository chatRepository;
 
+    private final MessageService messageService;
+
+    @MockBean
+    private SimpMessagingTemplate messagingTemplate;
+
     @Test
     void getChatPageByMemberUsername() {
         var chat = chatRepository.save(ChatEntity.builder()
                 .type(ChatType.PRIVATE)
                 .build());
-        var member = chatMemberRepository.save(ChatMemberEntity.builder()
-                .chatId(chat.getId())
-                .userId(UUID.randomUUID())
+        var chat2 = chatRepository.save(ChatEntity.builder()
+                .type(ChatType.PRIVATE)
                 .build());
-        var chatList = chatService.getChatPageByMemberUsername(PageRequest.of(0, 10), member.getUserId());
-        assertEquals(1, chatList.size());
-        assertEquals(chatList.getFirst(), ChatDto.builder()
-                .id(chat.getId())
-                .memberIds(List.of(member.getUserId()))
+        var chat3 = chatRepository.save(ChatEntity.builder()
+                .type(ChatType.PRIVATE)
                 .build());
+
+        var userId = UUID.randomUUID();
+        for (var chatId : List.of(chat.getId(), chat2.getId(), chat3.getId())) {
+            chatMemberRepository.save(ChatMemberEntity.builder()
+                    .chatId(chatId)
+                    .userId(userId)
+                    .build());
+        }
+
+        messageService.sendMessage(MessageEntity.builder()
+                .chatId(chat3.getId())
+                .payload(new TextPayload("Third message"))
+                .sender(userId)
+                .recipient(userId)
+                .sentAt(LocalDateTime.now())
+                .build());
+        messageService.sendMessage(MessageEntity.builder()
+                .chatId(chat2.getId())
+                .payload(new TextPayload("Latest message"))
+                .sender(userId)
+                .recipient(userId)
+                .sentAt(LocalDateTime.now())
+                .build());
+
+        // Пустой чат выводим вперед - для мотивирования начать разговор
+        var chatList = chatService.getChatPageByMemberUsername(PageRequest.of(0, 10), userId);
+        assertEquals(3, chatList.size());
+        assertEquals(
+                chatList.stream()
+                        .map(ChatDto::id)
+                        .toList(),
+                List.of(
+                        chat.getId(),
+                        chat2.getId(),
+                        chat3.getId()
+                )
+        );
+    }
+
+    @Test
+    void getChatPageByMemberUsernameMore() {
+        var chat = chatRepository.save(ChatEntity.builder()
+                .type(ChatType.PRIVATE)
+                .build());
+        var chat2 = chatRepository.save(ChatEntity.builder()
+                .type(ChatType.PRIVATE)
+                .build());
+        var chat3 = chatRepository.save(ChatEntity.builder()
+                .type(ChatType.PRIVATE)
+                .build());
+        var chat4 = chatRepository.save(ChatEntity.builder()
+                .type(ChatType.PRIVATE)
+                .build());
+        var chat5 = chatRepository.save(ChatEntity.builder()
+                .type(ChatType.PRIVATE)
+                .build());
+        var chat6 = chatRepository.save(ChatEntity.builder()
+                .type(ChatType.PRIVATE)
+                .build());
+
+        var userId = UUID.randomUUID();
+        for (var chatId : List.of(
+                chat.getId(), chat2.getId(), chat3.getId(), chat4.getId(), chat5.getId(), chat6.getId()
+        )) {
+            chatMemberRepository.save(ChatMemberEntity.builder()
+                    .chatId(chatId)
+                    .userId(userId)
+                    .build());
+        }
+
+        messageService.sendMessage(MessageEntity.builder()
+                .chatId(chat6.getId())
+                .payload(new TextPayload("Third message"))
+                .sender(userId)
+                .recipient(userId)
+                .sentAt(LocalDateTime.now())
+                .build());
+        messageService.sendMessage(MessageEntity.builder()
+                .chatId(chat5.getId())
+                .payload(new TextPayload("Third message"))
+                .sender(userId)
+                .recipient(userId)
+                .sentAt(LocalDateTime.now())
+                .build());
+        messageService.sendMessage(MessageEntity.builder()
+                .chatId(chat4.getId())
+                .payload(new TextPayload("Latest message"))
+                .sender(userId)
+                .recipient(userId)
+                .sentAt(LocalDateTime.now())
+                .build());
+        messageService.sendMessage(MessageEntity.builder()
+                .chatId(chat3.getId())
+                .payload(new TextPayload("Third message"))
+                .sender(userId)
+                .recipient(userId)
+                .sentAt(LocalDateTime.now())
+                .build());
+
+        // Пустой чат выводим вперед - для мотивирования начать разговор
+        var chatList = chatService.getChatPageByMemberUsername(PageRequest.of(0, 10), userId);
+        assertEquals(3, chatList.size());
+        assertEquals(
+                chatList.stream()
+                        .map(ChatDto::id)
+                        .toList(),
+                List.of(
+                        chat.getId(),
+                        chat2.getId(),
+                        chat3.getId(),
+                        chat4.getId(),
+                        chat5.getId(),
+                        chat6.getId()
+                )
+        );
     }
 
     @Test
