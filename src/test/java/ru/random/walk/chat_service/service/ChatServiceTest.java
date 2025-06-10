@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -51,10 +52,15 @@ class ChatServiceTest extends AbstractContainerTest {
                 .build());
 
         var userId = UUID.randomUUID();
+        var recipient = UUID.randomUUID();
         for (var chatId : List.of(chat.getId(), chat2.getId(), chat3.getId())) {
             chatMemberRepository.save(ChatMemberEntity.builder()
                     .chatId(chatId)
                     .userId(userId)
+                    .build());
+            chatMemberRepository.save(ChatMemberEntity.builder()
+                    .chatId(chatId)
+                    .userId(recipient)
                     .build());
         }
 
@@ -62,14 +68,14 @@ class ChatServiceTest extends AbstractContainerTest {
                 .chatId(chat3.getId())
                 .payload(new TextPayload("Third message"))
                 .sender(userId)
-                .recipient(userId)
+                .recipient(recipient)
                 .sentAt(LocalDateTime.now())
                 .build());
         messageService.sendMessage(MessageEntity.builder()
                 .chatId(chat2.getId())
                 .payload(new TextPayload("Latest message"))
                 .sender(userId)
-                .recipient(userId)
+                .recipient(recipient)
                 .sentAt(LocalDateTime.now())
                 .build());
 
@@ -86,6 +92,9 @@ class ChatServiceTest extends AbstractContainerTest {
                         chat3.getId()
                 )
         );
+        for (var chatDto : chatList) {
+            assertTrue(chatDto.memberIds().containsAll(Set.of(userId, recipient)));
+        }
     }
 
     @Test
