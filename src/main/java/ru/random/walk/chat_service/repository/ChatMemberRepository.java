@@ -16,14 +16,19 @@ import java.util.UUID;
 public interface ChatMemberRepository extends JpaRepository<ChatMemberEntity, ChatMemberEntity.ChatMemberId> {
     @Query(
             """
-                    select new ru.random.walk.chat_service.model.entity.ChatWithMembersEntity(m.chatId, array_agg(m.userId) within group (order by m.userId))
-                    from ChatMemberEntity m
-                    where m.chatId in (
-                        select member.chatId
-                        from ChatMemberEntity member
-                        where member.userId = :userId
+                    select new ru.random.walk.chat_service.model.entity.ChatWithMembersEntity(
+                        member.chatId,
+                        array_agg(member.userId) within group (order by member.userId)
                     )
-                    group by m.chatId
+                    from ChatMemberEntity member
+                    left join (
+                        select chatId as chatIdAlias, max(sentAt) as lastMessageSentAt
+                        from MessageEntity
+                        group by chatId
+                    ) message on member.chatId = message.chatIdAlias
+                    where member.userId = :userId
+                    group by member.chatId, message.lastMessageSentAt
+                    order by case when message.lastMessageSentAt is null then 0 else 1 end, message.lastMessageSentAt desc
                     """
     )
     List<ChatWithMembersEntity> findAllChatWithMembersByUserId(UUID userId, Pageable pageable);
